@@ -9,7 +9,7 @@ make it a lot easier to use SikuliX within Robot Framework projects with a simpl
 Also with this implementation is very easy to extend the library with new custom keywords, for example with the purpose to
 create migration classes to help migrate from current Sikuli libraries or other image recognition alternatives. For practical examples check migrate folder.
 
-See [keyword documentation](https://adrian-evo.github.io/robotframework-sikulixlibrary/SikuliXLibrary.html).
+See [keyword documentation](https://adrian-evo.github.io/SikuliXLibrary.html).
 
 # Installation instructions
 
