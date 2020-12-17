@@ -1,0 +1,2 @@
+robotframework >=3.2.2
+jpype1 >=1.2.0

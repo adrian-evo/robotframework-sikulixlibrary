@@ -1,0 +1,1 @@
+robot --outputdir results/default test
