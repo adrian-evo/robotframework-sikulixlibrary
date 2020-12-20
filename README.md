@@ -11,7 +11,7 @@ create migration classes to help migrate from current Sikuli libraries or other 
 
 See [keyword documentation](https://adrian-evo.github.io/SikuliXLibrary.html).
 
-# Installation instructions
+# Installation instructions (Windows)
 
 1. Python 3.5 or newer, as supported by JPype
 2. JPype 1.2 or newer and JPype project dependencies as explained on project page: https://github.com/jpype-project/jpype
@@ -60,7 +60,10 @@ Additionally, debugging with Robot Editor - RED (https://github.com/nokia/RED) i
 	- supported, tested
 
 2. OSX
-	- SikuliX works under OSX, however currently there are issues with JPype generally working under OSX: https://github.com/jpype-project/jpype/issues/906
+	- SikuliX works under OSX, however currently there are issues with JPype generally working under OSX: https://github.com/jpype-project/jpype/issues/911
 
 3. Linux
-	- untested
+	- supported, tested with Ubuntu 20.04 and leafpad application
+	- tested with: python3.8, default-jre (openjdk-11-jre), libopencv4.2-java as explained on SikuliX support page, gnome-panel, `pip install robotframework-sikulixlibrary`
+	- obviously images from test/img directory needs to be regenerated for the application of choice, adjust SikuliX path in .robot file and use `app open  leafpad` instead.
+	- start the tests with e.g. `python -m robot --outputdir results/ubuntu test_defaultlibrary.robot`
