@@ -51,7 +51,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         | ${wait} | Region GetAutoWait |
         '''
-        self.appRegion.getAutoWaitTimeout()
+        return self.appRegion.getAutoWaitTimeout()
 
     @keyword
     def region_setFindFailedResponse(self, val):
@@ -66,7 +66,10 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         | Region SetFindFailedResponse | SKIP |
         '''
-        jVal = JClass("org.sikuli.script.FindFailedResponse").class_.getDeclaredField(val).get(None)
+        if useJpype:
+            jVal = SikuliXJClass.FindFailedResponse.class_.getDeclaredField(val).get(None)
+        else:
+            jVal = get_java_class(SikuliXJClass.FindFailedResponse).getDeclaredField(val).get(None)
         self.appRegion.setFindFailedResponse(jVal)
 
     @keyword
@@ -136,12 +139,21 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                 logger.trace("Call findOperation with arguments: %s" % type)
                 logger.trace(self.appRegion)
                 logger.trace(self.appPattern)
-                res = JClass("org.sikuli.script.Region").class_.getDeclaredMethod(type, JObject).invoke(self.appRegion, self.appPattern)
+                if useJpype:
+                    res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JObject).invoke(self.appRegion, self.appPattern)
+                else:
+                    #print(self.appRegion)
+                    #print(get_java_class(SikuliXJClass.Region))
+                    #print (get_method(self.appRegion, type))
+                    res = get_method(self.appRegion, type)(self.appPattern)
             else:
                 logger.trace("Call findOperation with arguments: %s, %s seconds" % (type, seconds))
                 logger.trace(self.appRegion)
                 logger.trace(self.appPattern)
-                res = JClass("org.sikuli.script.Region").class_.getDeclaredMethod(type, JObject, JDouble).invoke(self.appRegion, self.appPattern, seconds)
+                if useJpype:
+                    res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JObject, JDouble).invoke(self.appRegion, self.appPattern, seconds)
+                else:
+                    res = get_method(self.appRegion, type)(self.appPattern, float(seconds))
 
         except: # except should happen only for find or wait
             self._failed("Image not visible on screen: " + target, seconds)
@@ -233,7 +245,10 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         # 1st case, target none - click on default
         if target == None:
             logger.trace(self.appRegion)
-            return JClass("org.sikuli.script.Region").class_.getDeclaredMethod(action).invoke(self.appRegion)
+            if useJpype:
+                return SikuliXJClass.Region.class_.getDeclaredMethod(action).invoke(self.appRegion)
+            else:
+                return get_method(self.appRegion, action)()
             #return self.appRegion.click()
 
         # 2nd case, define a Pattern from image name - implicit find operation is processed first. 
@@ -242,14 +257,20 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             self.appRegion.setRect(self.appScreen)
             logger.trace(self.appRegion)
             logger.trace(pattern)
-            return JClass("org.sikuli.script.Region").class_.getDeclaredMethod(action, JObject).invoke(self.appRegion, pattern) 
+            if useJpype:
+                return SikuliXJClass.Region.class_.getDeclaredMethod(action, JObject).invoke(self.appRegion, pattern) 
+            else:
+                return get_method(self.appRegion, action)(pattern)
 
         # 3rd case, match can be given only as lastMatch. Target offset can be null or specified.
         if useLastMatch:
             self._prepare_lastMatch(dx, dy)
             logger.trace(self.appRegion)
             logger.trace(self.appMatch)
-            return JClass("org.sikuli.script.Region").class_.getDeclaredMethod(action, JObject).invoke(self.appRegion, self.appMatch)
+            if useJpype:
+                return SikuliXJClass.Region.class_.getDeclaredMethod(action, JObject).invoke(self.appRegion, self.appMatch)
+            else:
+                return get_method(self.appRegion, action)(self.appMatch)
 
         # 4th case, region - not implemented
         # 5th case, location - not implemented
@@ -330,13 +351,13 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             if seconds == 0:   
                 return self.appMatch.highlight()
             else:
-                return self.appMatch.highlight(seconds)
+                return self.appMatch.highlight(float(seconds))
         else:
             logger.trace(self.appRegion)
             if seconds == 0:   
                 return self.appRegion.highlight()
             else:
-                return self.appRegion.highlight(seconds)
+                return self.appRegion.highlight(float(seconds))
 
     @keyword
     def region_highlightAllOff(self):
@@ -399,12 +420,14 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         if "SikuliXJClass.Key" in text:
             s_key = text.split(".")[2]
             try:
-                key = SikuliXJClass.Key.class_.getDeclaredField(s_key).get(None)
+                #key = SikuliXJClass.Key.class_.getDeclaredField(s_key).get(None)
+                key = SikuliXJClass.Key().getClass().getDeclaredField(s_key).get(None)
             except:
                 key = s_key
         if modifier and "SikuliXJClass.Key" in modifier:
             s_key = modifier.split(".")[2]
-            mod = SikuliXJClass.Key.class_.getDeclaredField(s_key).get(None)
+            #mod = SikuliXJClass.Key.class_.getDeclaredField(s_key).get(None)
+            mod = SikuliXJClass.Key().getClass().getDeclaredField(s_key).get(None)
         
         # 1st case, target none - click on default
         if target == None:
@@ -449,14 +472,15 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         if useLastMatch:
             self._prepare_lastMatch(dx1, dy1)
             self.appRegion.setRect(self.appScreen)
-            return JClass("org.sikuli.script.Region").class_.getDeclaredMethod("dragDrop", JObject, JObject).invoke(self.appRegion, self.appMatch, pattern2)
-
+            #return SikuliXJClass.Region.class_.getDeclaredMethod("dragDrop", JObject, JObject).invoke(self.appRegion, self.appMatch, pattern2)
+            self.appRegion.dragDrop(self.appMatch, pattern2)
         # define a Pattern from first image name - implicit find operation is processed first. 
         if not useLastMatch:
             pattern1 = self._prepare_pattern(target1, dx1, dy1)
             logger.trace(pattern1)
             self.appRegion.setRect(self.appScreen)
-            return JClass("org.sikuli.script.Region").class_.getDeclaredMethod("dragDrop", JObject, JObject).invoke(self.appRegion, pattern1, pattern2) 
+            #return SikuliXJClass.Region.class_.getDeclaredMethod("dragDrop", JObject, JObject).invoke(self.appRegion, pattern1, pattern2) 
+            self.appRegion.dragDrop(pattern1, pattern2)
 
     # Region - find text operations
     def _region_findTextOperation(self, type, text, seconds=0, onScreen=True):
@@ -467,11 +491,17 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             if seconds == 0:
                 logger.trace("Call findTextOperation with arguments: %s" % type)
                 logger.trace(self.appRegion)
-                res = JClass("org.sikuli.script.Region").class_.getDeclaredMethod(type, JString).invoke(self.appRegion, text)
+                if useJpype:
+                    res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JString).invoke(self.appRegion, text)
+                else:
+                    res = get_method(self.appRegion, type)(text)
             else:
                 logger.trace("Call findTextOperation with arguments: %s, %s seconds" % (type, seconds))
                 logger.trace(self.appRegion)
-                res = JClass("org.sikuli.script.Region").class_.getDeclaredMethod(type, JString, JDouble).invoke(self.appRegion, text, seconds)
+                if useJpype:
+                    res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JString, JDouble).invoke(self.appRegion, text, seconds)
+                else:
+                    res = get_method(self.appRegion, type)(text, float(seconds))
 
         except: # except should happen only for find or wait
             self._failed("Text not visible on screen: " + text, seconds)

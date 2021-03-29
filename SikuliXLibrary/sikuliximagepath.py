@@ -12,7 +12,7 @@ class SikuliXImagePath(SikuliXJClass):
         if image_path != '':
             SikuliXJClass.ImagePath.add(image_path)
 
-        #print('SikuliXImagePath init')
+        print('SikuliXImagePath init')
         
     @keyword
     def imagePath_add(self, path):
@@ -23,11 +23,6 @@ class SikuliXImagePath(SikuliXJClass):
         '''
         SikuliXJClass.ImagePath.add(path)
 
-        imgPath = list(SikuliXJClass.ImagePath.get())
-        for p in imgPath:
-            #print("Image PATH: " + str(p))
-            logger.trace("Image PATH: " + str(p))
-
     @keyword
     def imagePath_remove(self, path):
         '''
@@ -36,7 +31,9 @@ class SikuliXImagePath(SikuliXJClass):
         | ImagePath Remove | path |
         '''
         SikuliXJClass.ImagePath.remove(path)
-
+            
+    @keyword
+    def imagePath_dump(self):
         imgPath = list(SikuliXJClass.ImagePath.get())
         for p in imgPath:
             #print("Image PATH: " + str(p))

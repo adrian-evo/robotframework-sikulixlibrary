@@ -25,7 +25,8 @@ class SikuliXApp(SikuliXJClass):
         | App Open | "C:/Windows/System32/notepad.exe"path_to_my_txt_file |
         | App Open | C:/Windows/System32/notepad.exe -- path_to_my_txt_file |
         '''
-        SikuliXJClass.App.open(application)
+        #SikuliXJClass.App.open(application)
+        SikuliXJClass.App(application).open()
 
     @keyword
     def app_focus(self, title):
@@ -34,7 +35,8 @@ class SikuliXApp(SikuliXJClass):
 
         | App Focus | Notepad |
         '''
-        SikuliXJClass.App.focus(title)
+        #SikuliXJClass.App.focus(title)
+        SikuliXJClass.App(title).focus()
 
     @keyword
     def app_close(self, app):
@@ -43,4 +45,5 @@ class SikuliXApp(SikuliXJClass):
 
         | App Close | Notepad |
         '''
-        SikuliXJClass.App.close(app)
+        #SikuliXJClass.App.close(app)
+        SikuliXJClass.App(app).close()

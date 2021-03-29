@@ -10,13 +10,14 @@ from ntpath import abspath
 if __name__ == "__main__":
     start_time = time.time()
     # local path for image files. Images below have iNotepad prefix so that to differentiate from text Notepad
-    img_path = './img'
-    img_path = abspath('./img')
+    img_path = r'/Users/adrian/Projects/robotframework-sikulixlibrary/test/img/MacOS'
+    #img_path = abspath('./img/MacOS/')
     print(img_path)
     if not os.path.exists(img_path):
         print("Wrong image path")
-        #sys.exit()
+        sys.exit()
 
+    
     # local path for sikulix.jar, or empty if SIKULI_HOME environment variable should be used
     sikuli_path = 'sikulixide-2.0.5.jar'
 
@@ -45,13 +46,14 @@ if __name__ == "__main__":
     print('Settings MinSimilarity (0.7 -> 0.9): %s -> %s' % (pre, lib.settings_get('MinSimilarity')))
 
     print('=======Step: open Notepad')
-    lib.app_open("C:\\Windows\\System32\\notepad.exe")
-    lib.region_wait('iNotepad.PNG')
+    lib.app_open('TextEdit')
+    lib.region_wait('NewDoc.png')
+    lib.region_click()
     print('Wait with timeout: 1 second')
-    lib.region_wait('iNotepad.PNG', 1)
+    lib.region_wait('TextEdit.png', 1)
 
     def exit_here():
-        lib.app_close('Notepad')
+        lib.app_close('TextEdit')
         print("done")
         lib.destroy_vm()
         print('Run time: %s seconds' % (time.time() - start_time))

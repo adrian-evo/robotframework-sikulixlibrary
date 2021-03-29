@@ -16,8 +16,16 @@ class SikuliXSettings(SikuliXJClass):
         | ${prev} | Settings Set | MinSimilarity | ${0.9} |
         | Settings Set | Highlight | ${True} |
         '''
-        previous = SikuliXJClass.Settings.class_.getDeclaredField(variable).get(None)
-        SikuliXJClass.Settings.class_.getDeclaredField(variable).set(None, value)
+        if useJpype:
+            previous = SikuliXJClass.Settings.class_.getDeclaredField(variable).get(None)
+            SikuliXJClass.Settings.class_.getDeclaredField(variable).set(None, value)
+        else:
+            #previous = SikuliXJClass.Settings().getClass().getDeclaredField(variable).get(None)
+            #SikuliXJClass.Settings().getClass().getDeclaredField(variable).set(None, value)
+
+            previous = get_java_class(SikuliXJClass.Settings).getDeclaredField(variable).get(None)
+            get_java_class(SikuliXJClass.Settings).getDeclaredField(variable).set(None, value)
+
         return previous
 
     @keyword
@@ -28,7 +36,11 @@ class SikuliXSettings(SikuliXJClass):
 
         | ${val} | Settings Get | MinSimilarity |
         '''
-        return SikuliXJClass.Settings.class_.getDeclaredField(variable).get(None)
+        if useJpype:
+            return SikuliXJClass.Settings.class_.getDeclaredField(variable).get(None)
+        else:
+            #return SikuliXJClass.Settings().getClass().getDeclaredField(variable).get(None)
+            return get_java_class(SikuliXJClass.Settings).getDeclaredField(variable).get(None)
 
     @keyword
     def settings_setShowActions(self, mode):
@@ -39,3 +51,12 @@ class SikuliXSettings(SikuliXJClass):
         | Settings SetShowAction | ${True} |
         '''
         SikuliXJClass.Settings.setShowActions(mode)
+
+    @keyword
+    def settings_isShowActions(self):
+        '''
+        Return show action mode
+        
+        | ${val} | Settings isShowAction |
+        '''
+        return SikuliXJClass.Settings.isShowActions()
