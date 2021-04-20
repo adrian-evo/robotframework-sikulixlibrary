@@ -1,10 +1,17 @@
 # robotframework-sikulixlibrary
-The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype Python module.
+The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype or Py4J Python modules.
 
-[JPype](https://github.com/jpype-project/jpype) is a Python module to provide full access to Java from within Python, and this library is 
-a wrapper to SikuliX that is exposing Java functions as Robot Framework keywords. While in the past the only approach to use Sikuli functionality 
-within Robot Framework was through Remote Server with XML RPC interface, the aim of this library is to replace that approach and
-make it a lot easier to use SikuliX within Robot Framework projects with a simple Library statement (i.e. no need to start remote server and so on).
+[JPype](https://github.com/jpype-project/jpype) is a Python module to provide full access to Java from within Python. 
+
+[Py4J](https://github.com/bartdag/py4j) enables Python programs running in a Python interpreter to dynamically access Java objects in a JVM.
+
+This library is a wrapper to SikuliX that is exposing Java functions as Robot Framework keywords, and it can be enabled to use by 
+choice any of the JPype or Py4J modules. This is done by creating SIKULI_PY4J environment variable and setting to 1. When not defined or
+set to 0, JPype is used instead. Please note that on MacOS, only Py4J can be used, while on Windows or Ubuntu, any of them is working.
+
+While in the past the only approach to use Sikuli functionality within Robot Framework was through Remote Server with XML RPC interface, the aim 
+of this library is to replace that approach and make it a lot easier to use SikuliX within Robot Framework projects with a simple Library statement 
+(i.e. no need to start remote server and so on).
 
 Also with this implementation is very easy to extend the library with new custom keywords, for example with the purpose to
 create migration classes to help migrate from current Sikuli libraries or other image recognition alternatives. For practical examples check migrate folder.
@@ -13,21 +20,27 @@ See [keyword documentation](https://adrian-evo.github.io/SikuliXLibrary.html).
 
 # Installation instructions (Windows)
 
-1. Python 3.5 or newer, as supported by JPype
+1. Python 3.5 or newer, as supported by JPype or Py4J
 2. JPype 1.2 or newer and JPype project dependencies as explained on project page: https://github.com/jpype-project/jpype
 	- Install Java 8 or newer
 	- While not mentioned on JPype page, on a new Windows 10 machine also Visual C++ Redistributable 2015 and newer are needed (e.g. vc_redist.x64.exe)
-3. SikuliX as a standalone jar from project page: https://raiman.github.io/SikuliX1/downloads.html
+3. or Py4J 0.10.9.2 or newer
+4. SikuliX as a standalone jar from project page: https://raiman.github.io/SikuliX1/downloads.html
 	- Put jar file in any local directory (e.g. C:\sikulix\sikulix.jar)
 	- Recommended to use environment variable SIKULI_HOME that point to sikulix local directory
-4. `pip install robotframework-sikulixlibrary`
+5. `pip install robotframework-sikulixlibrary`
+
+While JPype JVM is always started automatically, Py4J JVM can be started manually or automatically. To start manually, use the command:
+	> java -jar sikulix.jar -p (to start Py4J server)
+	> java -jar -DsikuliDebug=3 sikulixide.jar -p (useful e.g. for checking sikulix debug info)
+	
 
 # Examples
 
 ### Testing with [Robot Framework](https://robotframework.org)
 ```RobotFramework
 *** Settings ***
-Library   SikuliXLibrary
+Library   SikuliXLibrary	sikuli_path=sikulixide-2.0.5.jar
 
 *** Test Cases ***
 Example Test
@@ -40,7 +53,7 @@ Example Test
 
 ### Testing with [Python](https://python.org).
 ```python
-from SikuliXLibrary import *
+from SikuliXLibrary import SikuliXLibrary
 lib = SikuliXLibrary()
 lib.imagePath_add('my_path')
 lib.settings_set('MinSimilarity', float(0.9))

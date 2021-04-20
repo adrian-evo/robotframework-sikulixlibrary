@@ -1,21 +1,22 @@
 *** Settings ***
-Documentation   Test case to demonstrate ImageHorizonLibraryMigration keywords usage
+Documentation   Test case to demonstrate SikuliXCustomLibrary keywords usage
 ...             Details: 
 ...    
 ...    
 
-Library         ${CURDIR}/../migrate/ImageHorizonLibraryMigration.py
+Library         ${CURDIR}/../migrate/SikuliXCustomLibrary.py  sikuli_path=sikulixide-2.0.5.jar
 Library         OperatingSystem
 
 
 *** Variables ***
-${IMAGE_DIR}        ${CURDIR}/img
+${IMAGE_DIR}        ${CURDIR}/img/Windows
 ${DEFAULT_WAIT}     ${5}
 
 
 *** Test Cases ***
-Test Notepad With ImageHorizonLibraryMigration
+Test Notepad With SikuliXCustomLibrary
     Set Log Level    TRACE
+    log java bridge
     
     # local path for image files. images below have iNotepad prefix so that to differentiate from text Notepad
     imagePath add    ${IMAGE_DIR}
@@ -26,7 +27,7 @@ Test Notepad With ImageHorizonLibraryMigration
 
     region setAutoWait      ${DEFAULT_WAIT}
     # coordinates relative to upper left corner
-    #set offsetCenterMode    ${False}
+    set offsetCenterMode    ${False}
     set notFoundLogImages   ${True}
     
     # for demo purpose
@@ -35,17 +36,18 @@ Test Notepad With ImageHorizonLibraryMigration
     ${prev}    settings set    WaitAfterHighlight   ${0.9}
 
     # default min similarity
-    #${prev}    settings set    MinSimilarity    ${0.7}
-    set confidence    ${0.7}
-    
+    ${prev}    settings set    MinSimilarity    ${0.7}
+
     app open     C:/Windows/System32/notepad.exe
     
-    wait for  iNotepad    ${DEFAULT_WAIT}
-    click image  iNotepad
-
-    set confidence    ${0.5}
-    wait for  iNotepad mod
-    click image  iNotepad
-
+    wait until screen contains  iNotepad
+    wait until screen does not contain  iNotepad mod
+    
+    #region wait  iNotepad mod.PNG
+    #region wait repeat  iNotepad mod.PNG
+    region wait repeat  iNotepad mod.PNG  repeatFindWithLowerSimilar=${True}
+    
+    one of the regions should exist    iNotepad mod  iNotepad
+    
     app close    Notepad
-    #destroy vm
+    destroy vm

@@ -1,26 +1,25 @@
 # Python test case to demonstrate SikuliX library keywords usage with Python
 
 
-from SikuliXLibrary import *
-import time
-import os
-import sys
+from SikuliXLibrary import SikuliXLibrary
+
+import time, os, sys
 from ntpath import abspath
 
 if __name__ == "__main__":
     start_time = time.time()
     # local path for image files. Images below have iNotepad prefix so that to differentiate from text Notepad
-    img_path = './img'
-    img_path = abspath('./img')
+    img_path = abspath('./img/Windows')
     print(img_path)
     if not os.path.exists(img_path):
         print("Wrong image path")
         #sys.exit()
 
-    # local path for sikulix.jar, or empty if SIKULI_HOME environment variable should be used
+    # sikuli_path: empty for path from SIKULI_HOME + sikulix.jar, not empty might be either SIKULI_HOME + given jar name or full path
     sikuli_path = 'sikulixide-2.0.5.jar'
 
     lib = SikuliXLibrary(sikuli_path, img_path, logImages=False)
+    lib.log_java_bridge()
 
     lib.set_sikuli_resultDir('.')
     pre = lib.region_getAutoWait()
@@ -57,8 +56,8 @@ if __name__ == "__main__":
         print('Run time: %s seconds' % (time.time() - start_time))
         sys.exit()
 
-    exit_here()
-        
+    #exit_here()
+
     # message is Notepad2 not found after removing path
     print('=======Step: iNotepad2 image should not be found')
     lib.imagePath_remove(img_path)
@@ -69,9 +68,7 @@ if __name__ == "__main__":
     lib.imagePath_add(img_path)
     res = lib.region_has('iNotepad2', 10)
     print('Exist - Has (True): ', res)
-    
-    #sys.exit()
-    
+        
     lib.region_paste('Welcome to the all new SikuliX RF library')
     time.sleep(3)
 

@@ -12,7 +12,7 @@ class SikuliXImagePath(SikuliXJClass):
         if image_path != '':
             SikuliXJClass.ImagePath.add(image_path)
 
-        print('SikuliXImagePath init')
+        libLogger.debug('SikuliXImagePath init')
         
     @keyword
     def imagePath_add(self, path):

@@ -1,6 +1,7 @@
 # MIT license
 
 from .sikulixjclass import *
+from os.path import relpath
 
 
 class SikuliXLogger():
@@ -19,7 +20,7 @@ class SikuliXLogger():
             self.passedLogImages = True
             self.failedLogImages = True
             
-        #print ('SikuliXLogger init')
+        #libLogger.debug('SikuliXLogger init')
 
     @keyword
     def set_sikuli_resultDir(self, path):
@@ -84,7 +85,7 @@ class SikuliXLogger():
 
     @not_keyword
     def _passed(self, msg):
-        #print('PASS ' + msg)
+        libLogger.debug('PASS %s' % msg)
         logger.info('PASS: ' + msg)
 
         # matched image
@@ -110,7 +111,7 @@ class SikuliXLogger():
 
     @not_keyword
     def _failed(self, msg, seconds):
-        #print('FAIL ' + msg)
+        libLogger.debug('FAIL %s' % msg)
         logger.error('FAIL: ' + msg)
 
         if self.failedLogImages:
@@ -133,7 +134,7 @@ class SikuliXLogger():
 
     @not_keyword
     def _notfound(self, msg, seconds):
-        #print('NOT FOUND ' + msg)
+        libLogger.debug('NOT FOUND %s' % msg)
         if self.notFoundLogImages:
             # source image
             src_img: str = str(self.appPattern.getFilename())

@@ -20,7 +20,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         self.offsetCenterMode = centerMode
         
-        print ('SikuliXRegion init')
+        libLogger.debug('SikuliXRegion init')
         
     # Region - Set operations
     @keyword
@@ -144,7 +144,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                 else:
                     #print(self.appRegion)
                     #print(get_java_class(SikuliXJClass.Region))
-                    #print (get_method(self.appRegion, type))
+                    #print(get_method(self.appRegion, type))
                     res = get_method(self.appRegion, type)(self.appPattern)
             else:
                 logger.trace("Call findOperation with arguments: %s, %s seconds" % (type, seconds))

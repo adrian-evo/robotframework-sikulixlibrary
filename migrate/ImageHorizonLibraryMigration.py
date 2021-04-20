@@ -1,11 +1,10 @@
 """
-Description: SikuliX sample custom library, based on the new, SikuliX JPype based library, implementing 
+Description: SikuliX sample custom library, based on the new, SikuliX JPype or Py4J based library, implementing 
 keywords from ImageHorizonLibrary for convenience migration.
 Check https://eficode.github.io/robotframework-imagehorizonlibrary/doc/ImageHorizonLibrary.html for details
 """
 
-import SikuliXLibrary
-from SikuliXLibrary import *
+from SikuliXLibrary import SikuliXLibrary
 
 from robot.api.deco import *
 from robot.api import logger

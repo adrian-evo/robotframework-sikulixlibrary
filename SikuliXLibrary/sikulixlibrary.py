@@ -14,7 +14,7 @@ class SikuliXLibrary(SikuliXRegion,
                      SikuliXImagePath,
                      SikuliXSettings):
     
-    ''' The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype Python module.
+    ''' The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype or Py4J Python modules.
 
     So far, the only approach to use SikuliX Java library within Robot Framework was through Remote library and Jython 2.7.
     The existing ``robotframework-SikuliLibrary`` and other known custom implementations (e.g. mostly based on old 
@@ -25,7 +25,7 @@ class SikuliXLibrary(SikuliXRegion,
      
     With the help of this new library, SikuliX implementation can be used now natively with Robot Framework and Python 3.x:
     - robotremoteserver and Remote library are not needed anymore
-    - debugging with Robot Editor - RED is finally possible for both Robot Framework and Python code
+    - debugging with Robot Editor - RED or Eclipse is finally possible for both Robot Framework and Python code
     
     - very easy to extend the library with new keywords, or overwrite existing keywords and methods by extending the main class, e.g.
     |    class ImageHorizonLibraryMigration(SikuliXLibrary):
@@ -43,6 +43,7 @@ class SikuliXLibrary(SikuliXRegion,
     This library is using:
     |    [https://github.com/RaiMan/SikuliX1]
     |    [https://github.com/jpype-project/jpype]
+    |    [https://github.com/bartdag/py4j]
     
     The keywords are matching as much as possible the original SikuliX functions so that it is easier to understand them from 
     the official documentation: https://sikulix-2014.readthedocs.io/en/latest/index.html

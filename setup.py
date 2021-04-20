@@ -14,7 +14,7 @@ install_requires = open(os.path.join("SikuliXLibrary", "requirements.txt")).read
 setup_kwargs = {
     "name": "robotframework-sikulixlibrary",
     "version": __version__,
-    "description": "Robot Framework SiluliX library powered by SikuliX Java library and JPype Python module.",
+    "description": "Robot Framework SiluliX library powered by SikuliX Java library and JPype or Py4J Python modules.",
     "long_description": long_description,
     "long_description_content_type": "text/markdown",
     "author": "Adrian V.",

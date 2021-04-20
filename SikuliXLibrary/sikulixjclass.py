@@ -1,10 +1,9 @@
 # MIT license
 
-import os, datetime, time, shutil, subprocess, logging
-from os.path import relpath
-from py4j.java_gateway import launch_gateway
+#import os, datetime, time, shutil, subprocess, logging
+import os, time, subprocess, logging
 
-# Check which Python Java bridge to use between JPype and PY4J. When SIKULI_Py4J environment variable is defined with value 1
+# Check which Python Java bridge to use between JPype and Py4J. When SIKULI_PY4J environment variable is defined with value 1
 # use Py4J, otherwise if not defined or has value 0, use JPype
 useJpype = True
 if os.getenv('SIKULI_PY4J') == '1':
@@ -16,15 +15,18 @@ if useJpype:
     from jpype.types import *
 else:
     from py4j.java_gateway import (
-        JavaGateway, get_field, get_method, get_java_class)
+        JavaGateway, Py4JNetworkError, get_field, get_method, get_java_class)
 
 from robot.api.deco import *
 from robot.api import logger
 
+libLogger = logging.getLogger(__name__)
+libLogger.setLevel(level=logging.INFO)
+
 
 class SikuliXJClass():
     '''
-        Main class holding JPype JClasses or py4j gateway classes used by SikuliX library
+        Main class holding JPype JClasses or Py4J gateway classes used by SikuliX library
     '''
     Initialized = False
 
@@ -45,6 +47,7 @@ class SikuliXJClass():
 
     @not_keyword
     def __init__(self, sikuli_path=''):
+        self._init_python_console_logger()
         if not SikuliXJClass.Initialized:
             if useJpype:
                 self._jvm_sikuli_init(sikuli_path)
@@ -52,9 +55,15 @@ class SikuliXJClass():
                 self._py4j_sikuli_init(sikuli_path)
             SikuliXJClass.Initialized = True
 
-        print ('SikuliXJClass init')
+        libLogger.debug('SikuliXJClass init')
         logging.getLogger("py4j").setLevel(logging.ERROR)
 
+    @not_keyword
+    def _init_python_console_logger(self):
+        logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+        consoleHandler = logging.StreamHandler()
+        consoleHandler.setFormatter(logFormatter)
+        libLogger.addHandler(consoleHandler)
 
     @not_keyword
     def _handle_sikuli_path(self, sikuli_path):
@@ -70,13 +79,13 @@ class SikuliXJClass():
 
         if not os.path.isfile(sikuli_path):
             raise Exception("SikuliX jar file is missing.")
-        print('Use SikuliX file: ', sikuli_path)
+        libLogger.debug('Use SikuliX file: %s' % sikuli_path)
         
         return sikuli_path
 
     @not_keyword
     def _jvm_sikuli_init(self, sikuli_path):
-        print('JPype init')
+        libLogger.info('JPype init')
         sikuli_path = self._handle_sikuli_path(sikuli_path)
         # Launch the JVM
         try:
@@ -105,7 +114,7 @@ class SikuliXJClass():
 
     @not_keyword
     def _py4j_sikuli_init(self, sikuli_path):
-        print ('Py4J init')
+        libLogger.info('Py4J init')
         sikuli_path = self._handle_sikuli_path(sikuli_path)
         
         # wait for gateway
@@ -116,16 +125,29 @@ class SikuliXJClass():
                     print(f)
                     return f
                 except:
-                    print('Gateway not ready. Waiting.')
+                    libLogger.info('Gateway not ready. Waiting.')
                     time.sleep(sleep_time)
             raise Exception("Fail to start Py4J. SikuliX not running")
 
+        # Check if already running
+        manuallyStarted = False
+        try:
+            JavaGW = JavaGateway(eager_load=True)    
+            libLogger.info("JVM accepting connection")
+            manuallyStarted = True
+        except Py4JNetworkError:
+            libLogger.debug("No JVM listening")
+        except Exception:
+            libLogger.error("Other JVM exception")
+        
         # Launch the JVM
-        SikuliXJClass.Py4JProcess = subprocess.Popen(['java', '-jar', sikuli_path, '-p'], stdin=subprocess.PIPE,stdout=subprocess.PIPE)
-        JavaGW = JavaGW = JavaGateway()
-        print(SikuliXJClass.Py4JProcess)
+        if not manuallyStarted:
+            SikuliXJClass.Py4JProcess = subprocess.Popen(['java', '-jar', sikuli_path, '-p'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            libLogger.info('JVM started: %s' % SikuliXJClass.Py4JProcess)
+            JavaGW = JavaGateway()
+            wait_for_gateway(lambda : JavaGW.jvm.System.getProperty("java.runtime.name"), 20, 0.5)
+        
         SikuliXJClass.JavaGW = JavaGW
-        wait_for_gateway(lambda : JavaGW.jvm.System.getProperty("java.runtime.name"), 20, 0.5)
 
         SikuliXJClass.ImagePath = JavaGW.jvm.org.sikuli.script.ImagePath
         SikuliXJClass.Screen = JavaGW.jvm.org.sikuli.script.Screen
@@ -141,13 +163,26 @@ class SikuliXJClass():
         SikuliXJClass.Settings = JavaGW.jvm.org.sikuli.basics.Settings
         
     @keyword
+    def log_java_bridge(self):
+        '''
+            Log within Robot Framework which java bridge was used
+        '''
+        if not SikuliXJClass.JavaGW == None:
+            if SikuliXJClass.Py4JProcess:
+                logger.info('Using Py4J, started automatically')
+            else:
+                logger.info('Using Py4J, started manually')
+        else:
+            logger.info('Using JPype')
+        
+    @keyword
     def destroy_vm(self):
         '''
-            Shutdown the Java Virtual Machine used by JPype or JavaGateway from py4j
+            Shutdown the Java Virtual Machine used by JPype or JavaGateway from Py4J
         '''
         SikuliXJClass.Initialized = False
         if useJpype:
             jpype.shutdownJVM()
-        else:
+        elif SikuliXJClass.Py4JProcess:
             SikuliXJClass.JavaGW.shutdown()
             SikuliXJClass.Py4JProcess.kill()

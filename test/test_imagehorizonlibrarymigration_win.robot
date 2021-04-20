@@ -1,24 +1,25 @@
 *** Settings ***
-Documentation   Test case to demonstrate SikuliLibraryMigration keywords usage
+Documentation   Test case to demonstrate ImageHorizonLibraryMigration keywords usage
 ...             Details: 
 ...    
 ...    
 
-Library         ${CURDIR}/../migrate/SikuliLibraryMigration.py
+Library         ${CURDIR}/../migrate/ImageHorizonLibraryMigration.py  sikuli_path=sikulixide-2.0.5.jar
 Library         OperatingSystem
 
 
 *** Variables ***
-${IMAGE_DIR}        ${CURDIR}/img
+${IMAGE_DIR}        ${CURDIR}/img/Windows
 ${DEFAULT_WAIT}     ${5}
 
 
 *** Test Cases ***
-Test Notepad With SikuliLibraryMigration
+Test Notepad With ImageHorizonLibraryMigration
     Set Log Level    TRACE
+    log java bridge
     
     # local path for image files. images below have iNotepad prefix so that to differentiate from text Notepad
-    add image path    ${IMAGE_DIR}
+    imagePath add    ${IMAGE_DIR}
 
     set sikuli resultDir    ${OUTPUT DIR}
     Create Directory        ${OUTPUT DIR}/matches
@@ -35,19 +36,17 @@ Test Notepad With SikuliLibraryMigration
     ${prev}    settings set    WaitAfterHighlight   ${0.9}
 
     # default min similarity
-    ${prev}    settings set    MinSimilarity    ${0.7}
-
+    #${prev}    settings set    MinSimilarity    ${0.7}
+    set confidence    ${0.7}
+    
     app open     C:/Windows/System32/notepad.exe
+    
+    wait for  iNotepad    ${DEFAULT_WAIT}
+    click image  iNotepad
 
-    wait until screen contain  iNotepad    ${DEFAULT_WAIT}
-    click  iNotepad
-    wait until screen not contain  iNotepad mod    ${DEFAULT_WAIT}
-    
-    exists  iNotepad
-    exists  iNotepad mod=0.6
-    click  iNotepad
-    
-    ${text}  get text  iNotepad    
+    set confidence    ${0.5}
+    wait for  iNotepad mod
+    click image  iNotepad
 
     app close    Notepad
-    #destroy vm
+    destroy vm

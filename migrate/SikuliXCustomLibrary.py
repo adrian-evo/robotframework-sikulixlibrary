@@ -1,11 +1,10 @@
 """
-Description: SikuliX sample custom library, based on the new, SikuliX JPype based library, implementing custom 
+Description: SikuliX sample custom library, based on the new, SikuliX JPype or Py4J based library, implementing custom 
 keywords (e.g. oneOfTheRegionsShouldExist) and/or override existing keywords for custom functionality (e.g. _passed).
 """
 
 
-import SikuliXLibrary
-from SikuliXLibrary import *
+from SikuliXLibrary import SikuliXLibrary
 
 from robot.api.deco import *
 from robot.api import logger
