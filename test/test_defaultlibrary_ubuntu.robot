@@ -6,7 +6,8 @@ Documentation   Test case to demonstrate SikuliX library keywords usage
 
 # Library         SikuliXLibrary
 # Initialize library with sikuli_path or use SIKULI_PATH environment variable (recommended)
-Library         SikuliXLibrary  sikuli_path=/media/psf/Home/eclipse/sikulix/sikulix.jar  image_path=  logImages=${True}  centerMode=${False}
+Library         SikuliXLibrary  sikuli_path=sikulix2.0.4.jar
+#Library         SikuliXLibrary  sikuli_path=/Home/eclipse/sikulix/sikulix.jar  image_path=  logImages=${True}  centerMode=${False}
 Library         OperatingSystem
 
 
@@ -41,24 +42,22 @@ Test Notepad With SikuliX
     ${prev}    settings set    MinSimilarity    ${0.9}
 
     # step 1
-    log    Step1: open Notepad
+    log    Step1: open Leafpad
     app open     leafpad
-    #region wait  iNotepad mod.PNG
-    region wait  iNotepad.PNG
+    region wait  Leafpad
 
     #pass execution  .
 
     # step 2
     # message is Notepad2 not found after removing path
-    log    Step2: iNotepad2 image should not be found
+    log    Step2: Leafpad2 image should not be found
     imagePath remove  ${IMAGE_DIR}
-    #region wait     iNotepad2.PNG
-    region exists     iNotepad2.PNG
+    region exists     Leafpad2
 
     # step 3
-    log    Step3: iNotepad2 should be found after adding image path
+    log    Step3: Leafpad2 should be found after adding image path
     imagePath add    ${IMAGE_DIR}
-    region exists    iNotepad2
+    region exists    Leafpad2
 
     region paste    Welcome to the all new SikuliX RF library
     sleep  3
@@ -68,13 +67,13 @@ Test Notepad With SikuliX
     region type    text=A    modifier=SikuliXJClass.Key.CTRL
     region type    SikuliXJClass.Key.DELETE
 
-    region paste   Welcome to the all new SikuliX RF libraryy    iNotepad=0.7    14    60
-    region wait    iNotepad typed
+    region paste   Welcome to the all new SikuliX RF libraryy    Leafpad=0.7    14    60
+    region wait    Leafpad typed
     region type    SikuliXJClass.Key.BACKSPACE
 
     # step 5
     log    Step5: get all region text by OCR
-    ${text}     region text    iNotepad typed
+    ${text}     region text    Leafpad typed
     log  ${text}
 
     # step 6
@@ -96,40 +95,40 @@ Test Notepad With SikuliX
     region highlightAllOff
 
     # step 8
-    log    Step8: right click on iNotepad - will fail if SKIP is not used next
+    log    Step8: right click on Leafpad - will fail if SKIP is not used next
     region setFindFailedResponse    SKIP
-    region rightClick    iNotepad    48    14
+    region rightClick    Leafpad    48    14
     sleep  3
 
     # step 9
     log    Step9: use correct image for right click
     region setFindFailedResponse    ABORT
     ${prev}    settings set    MinSimilarity    ${0.7}
-    region rightClick    iNotepad typed    48    14
+    region rightClick    Leafpad typed    48    14
 
     # coordinates relative to upper left corner of the image
-    region click    iNotepad menu    54    80
-    app focus       leafpad
+    #region click    Leafpad menu    54    80
+    #app focus       Leafpad
 
-    region click    iNotepad typed    50    12
+    #region click    Leafpad typed    50    12
     # use previous found region
-    region rightClick    None    0    0    True
+    #region rightClick    None    0    0    True
 
     # step 10
-    log    Step10: same as step 9, with coordinates relative to center
+    #log    Step10: same as step 9, with coordinates relative to center
     # coordinates relative to center of the image
-    set offsetCenterMode    ${True}
-    region click    iNotepad menu    -10    10
-    app focus       leafpad
+    #set offsetCenterMode    ${True}
+    #region click    Leafpad menu    -10    10
+    #app focus       Leafpad
 
     # step 11
     log    Step11: dragDrop Notepad
     set offsetCenterMode    ${False}
     ${prev}    settings set    DelayBeforeDrop    ${2.0}
-    region dragDrop    iNotepad typed  iNotepad typed    50    12    100    12
+    region dragDrop    Leafpad typed  Leafpad typed    50    12    100    12
 
     # step 12
-    log    Step12: delete everything and close Notepad
+    log    Step12: delete everything and close Leafpad
     region type    text=A    modifier=SikuliXJClass.Key.CTRL
     region type    SikuliXJClass.Key.DELETE
 

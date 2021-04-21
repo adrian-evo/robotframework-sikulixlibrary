@@ -2,23 +2,17 @@
 
 
 from SikuliXLibrary import SikuliXLibrary
-
-import time
-import os
-import sys
-from ntpath import abspath
+import time, os, sys
 
 if __name__ == "__main__":
     start_time = time.time()
-    # local path for image files. Images below have iNotepad prefix so that to differentiate from text Notepad
-    img_path = r'/Users/adrian/Projects/robotframework-sikulixlibrary/test/img/MacOS'
-    #img_path = abspath('./img/MacOS/')
+    # local path for image files.
+    img_path = os.getcwd() + '/img/MacOS'
     print(img_path)
     if not os.path.exists(img_path):
         print("Wrong image path")
         sys.exit()
 
-    
     # sikuli_path: empty for path from SIKULI_HOME + sikulix.jar, not empty might be either SIKULI_HOME + given jar name or full path
     sikuli_path = 'sikulixide-2.0.5.jar'
 
@@ -41,13 +35,13 @@ if __name__ == "__main__":
     print('Settings Highlight (False -> True): %s -> %s' % (pre, lib.settings_get('Highlight')))
 
     pre = lib.settings_set('WaitAfterHighlight', 0.5)
-    print('Settings WaitAfterHighlight (0.3 -> 1): %s -> %s' % (pre, lib.settings_get('WaitAfterHighlight')))
+    print('Settings WaitAfterHighlight (0.3 -> 0.5): %s -> %s' % (pre, lib.settings_get('WaitAfterHighlight')))
     
     # default min similarity
     pre = lib.settings_set('MinSimilarity', float(0.9))
     print('Settings MinSimilarity (0.7 -> 0.9): %s -> %s' % (pre, lib.settings_get('MinSimilarity')))
 
-    print('=======Step: open Notepad')
+    print('=======Step: open TextEdit')
     lib.app_open('TextEdit')
     lib.region_wait('NewDoc.png')
     lib.region_click()
@@ -61,17 +55,17 @@ if __name__ == "__main__":
         print('Run time: %s seconds' % (time.time() - start_time))
         sys.exit()
 
-    exit_here()
+    #exit_here()
         
     # message is Notepad2 not found after removing path
-    print('=======Step: iNotepad2 image should not be found')
+    print('=======Step: TextEdit2 image should not be found')
     lib.imagePath_remove(img_path)
-    res = lib.region_exists('iNotepad2.PNG')
+    res = lib.region_exists('TextEdit2.PNG')
     print('Exists (None): ', res)
     
-    print('=======Step: iNotepad2 should be found after adding image path')
+    print('=======Step: TextEdit2 should be found after adding image path')
     lib.imagePath_add(img_path)
-    res = lib.region_has('iNotepad2', 10)
+    res = lib.region_has('TextEdit2', 10)
     print('Exist - Has (True): ', res)
     
     #sys.exit()
@@ -83,8 +77,8 @@ if __name__ == "__main__":
     pre = lib.region_getFindFailedResponse()
     lib.region_setFindFailedResponse('SKIP')
     print('FindFailed (ABORT -> SKIP): %s -> %s' % (pre, lib.region_getFindFailedResponse()))
-    res = lib.region_waitVanish('iNotepad typed', 5)
-    print('Not vanished: ', res)
+    res = lib.region_waitVanish('TextEdit typed', 5)
+    print('Not vanished (False): ', res)
     pre = lib.region_getFindFailedResponse()
     lib.region_setFindFailedResponse('ABORT')
     print('FindFailed (SKIP -> ABORT): %s -> %s' % (pre, lib.region_getFindFailedResponse()))
@@ -94,15 +88,15 @@ if __name__ == "__main__":
     lib.region_type('SikuliXJClass.Key.DELETE')
 
     print('=======Step: waitVanish after delete')
-    res = lib.region_waitVanish('iNotepad typed', 5)
-    print('Vanished: ', res)
+    res = lib.region_waitVanish('TextEdit typed', 5)
+    print('Vanished (True): ', res)
 
-    lib.region_paste('Welcome to the all new SikuliX RF library ', 'iNotepad=0.7', 14, 60)    
-    lib.region_wait('iNotepad typed', 10)
+    lib.region_paste('Welcome to the all new SikuliX RF library ', 'TextEdit edited=0.7', 14, 60)    
+    lib.region_wait('TextEdit typed', 10)
     lib.region_type('SikuliXJClass.Key.BACKSPACE')
 
     print('=======Step: get all region text by OCR')
-    text = lib.region_text('iNotepad typed')
+    text = lib.region_text('TextEdit typed')
     print('OCR text: ', text)
 
     print('=======Step: type new line and new text')
@@ -112,8 +106,8 @@ if __name__ == "__main__":
     else:
         lib.region_paste('Based on JPype Python module')
     
-    print('=======Step: search and highlight Untitled text')
-    found = lib.region_existsText('Untitled')
+    print('=======Step: search and highlight Format text')
+    found = lib.region_existsText('Format')
     print('Text found (Match): ', found)
     lib.region_highlight(3)
     lib.region_highlightAllOff()
@@ -121,17 +115,17 @@ if __name__ == "__main__":
     print ('=======Step: double click found text, by using last match')
     lib.region_doubleClick(useLastMatch=True)
     time.sleep(3)
-    lib.region_waitText('Untitled', 5)
+    lib.region_waitText('Format', 5)
     lib.region_doubleClick(useLastMatch=True)
     
-    print('=======Step: right click on iNotepad - will fail if SKIP is not used next')
+    print('=======Step: right click on TextEdit - will fail if SKIP is not used next')
     lib.region_setFindFailedResponse('SKIP')
     print('FindFailed (SKIP): ', lib.region_getFindFailedResponse())
-    lib.region_rightClick('iNotepad', 48, 14)
+    lib.region_rightClick('TextEdit', 48, 14)
     
-    lib.region_setRect(1, 2, 300, 200)
-    ret = lib.region_find('iNotepad', onScreen=False)
-    print('Find on screen should fail: ', ret)
+    lib.region_setRect(1, 2, 400, 200)
+    ret = lib.region_find('TextEdit', onScreen=False)
+    print('Find on screen should fail (None): ', ret)
 
     print ('=======Step: use correct image for right click')
     lib.region_setFindFailedResponse('ABORT')
@@ -140,37 +134,39 @@ if __name__ == "__main__":
     pre = lib.settings_set('MinSimilarity', float(0.7))
     print('Settings MinSimilarity (0.9 -> 0.7): %s -> %s' % (pre, lib.settings_get('MinSimilarity')))
 
-    res = lib.region_has('iNotepad typed=0.99')
-    print('Has with 0.99 similiarity: (None)', res)
+    res = lib.region_has('TextEdit typed=0.99')
+    print('Has with 0.99 similiarity: (False)', res)
     
-    lib.region_rightClick('iNotepad typed', 48, 14)
+    #lib.region_rightClick('TextEdit typed', 312, 8)
 
     # coordinates relative to upper left corner of the image
-    lib.region_click('iNotepad menu', 54, 80)
-    lib.app_focus('Notepad')
+    lib.region_click('TextEdit menu', 338, 8)
+    lib.region_click('TextEdit window', 48, 10)
+    #lib.app_focus('TextEdit')
     
-    lib.region_click('iNotepad typed', 50, 12)
+    lib.region_click('TextEdit menu', 338, 8)
     # use previous found region
-    lib.region_rightClick(None, 0, 0, True)
+    #lib.region_rightClick(None, 0, 0, True)
 
     print('=======Step: click with coordinates relative to center')
     # coordinates relative to center of the image
     lib.set_offsetCenterMode(True)
-    lib.region_click('iNotepad menu', -10, 10)
-    lib.app_focus('Notepad')
+    lib.region_click('TextEdit window2', -128, 116)
+    #lib.app_focus('TextEdit')
 
     print('=======Step: dragDrop Notepad')
     lib.set_offsetCenterMode(False)
     prev = lib.settings_set('DelayBeforeDrop', float(2.0))
-    lib.region_dragDrop('iNotepad typed', 'iNotepad typed', 50, 12, 100, 12)
+    lib.region_dragDrop('TextEdit typed', 'TextEdit typed', 60, 12, 110, 12)
     
     print('=======Step: delete everything')
+    lib.region_find('TextEdit typed')
     lib.region_type(text='A', modifier='SikuliXJClass.Key.CTRL')
     lib.region_type('SikuliXJClass.Key.DELETE')
     
     print('=======Step: hover, click, double click')
-    lib.region_hover('iNotepad', dx=10, dy=10)
+    lib.region_hover('TextEdit typed', dx=10, dy=10)
     lib.region_mouseMove(100, 200)
-    lib.region_doubleClick('iNotepad', 100, 300)
+    lib.region_doubleClick('TextEdit typed', 100, 300)
     
     exit_here()

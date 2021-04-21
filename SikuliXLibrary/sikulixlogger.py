@@ -2,6 +2,7 @@
 
 from .sikulixjclass import *
 from os.path import relpath
+import datetime, shutil
 
 
 class SikuliXLogger():

@@ -1,13 +1,22 @@
 # MIT license
 
-#import os, datetime, time, shutil, subprocess, logging
-import os, time, subprocess, logging
+import os, time, subprocess, logging, sys
+from py4j.java_gateway import GatewayParameters
 
 # Check which Python Java bridge to use between JPype and Py4J. When SIKULI_PY4J environment variable is defined with value 1
 # use Py4J, otherwise if not defined or has value 0, use JPype
 useJpype = True
 if os.getenv('SIKULI_PY4J') == '1':
     useJpype = False
+
+# On MacOs always use Py4J, unless SIKULI_PY4J is set to 0 (e.g. for experiments)
+if sys.platform.startswith('darwin'):
+    useJpype = False
+
+# Override MacOS Py4J forcing, e.g. for experiments
+if os.getenv('SIKULI_PY4J') == '0':
+    useJpype = True
+
 
 if useJpype:
     import jpype
@@ -22,6 +31,7 @@ from robot.api import logger
 
 libLogger = logging.getLogger(__name__)
 libLogger.setLevel(level=logging.INFO)
+logging.getLogger("py4j").setLevel(logging.ERROR)
 
 
 class SikuliXJClass():
@@ -48,6 +58,7 @@ class SikuliXJClass():
     @not_keyword
     def __init__(self, sikuli_path=''):
         self._init_python_console_logger()
+        libLogger.debug('PY4J env variable: %s' % os.getenv('SIKULI_PY4J'))
         if not SikuliXJClass.Initialized:
             if useJpype:
                 self._jvm_sikuli_init(sikuli_path)
@@ -56,7 +67,6 @@ class SikuliXJClass():
             SikuliXJClass.Initialized = True
 
         libLogger.debug('SikuliXJClass init')
-        logging.getLogger("py4j").setLevel(logging.ERROR)
 
     @not_keyword
     def _init_python_console_logger(self):
@@ -132,7 +142,7 @@ class SikuliXJClass():
         # Check if already running
         manuallyStarted = False
         try:
-            JavaGW = JavaGateway(eager_load=True)    
+            JavaGW = JavaGateway(gateway_parameters=GatewayParameters(eager_load=True))    
             libLogger.info("JVM accepting connection")
             manuallyStarted = True
         except Py4JNetworkError:

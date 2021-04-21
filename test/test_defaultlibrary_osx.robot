@@ -1,12 +1,12 @@
 *** Settings ***
 Documentation   Test case to demonstrate SikuliX library keywords usage
 ...             Install first with 'pip install robotframework-sikulixlibrary'
-...             The reference images from img directory are generated on 1920 x 1080 screen, regenerate them for different resolutions
+...             The reference images from img directory are generated on 1440 x 900 MacOS screen, Dark mode. Regenerate them for different environment
 ...
 
-# Library         SikuliXLibrary
 # Initialize library with sikuli_path or use SIKULI_PATH environment variable (recommended)
-Library         SikuliXLibrary  sikuli_path=/media/psf/Home/eclipse/sikulix/sikulix.jar  image_path=  logImages=${True}  centerMode=${False}
+Library         SikuliXLibrary  sikuli_path=sikulixide-2.0.5.jar
+#Library         SikuliXLibrary  sikuli_path=sikulixide-2.0.5.jar  image_path=  logImages=${True}  centerMode=${False}
 Library         OperatingSystem
 
 
@@ -35,30 +35,30 @@ Test Notepad With SikuliX
     # for demo purpose
     settings setShowActions    ${True}
     ${prev}    settings set    Highlight            ${True}
-    ${prev}    settings set    WaitAfterHighlight   ${0.9}
+    ${prev}    settings set    WaitAfterHighlight   ${0.5}
 
     # default min similarity
     ${prev}    settings set    MinSimilarity    ${0.9}
 
     # step 1
-    log    Step1: open Notepad
-    app open     leafpad
-    #region wait  iNotepad mod.PNG
-    region wait  iNotepad.PNG
+    log    Step1: open TextEdit
+    app open     TextEdit
+    region wait  NewDoc
+    region click
+    region wait  TextEdit  1
 
-    #pass execution  .
+    #exit here
 
     # step 2
-    # message is Notepad2 not found after removing path
-    log    Step2: iNotepad2 image should not be found
+    # message is TextEdit2 not found after removing path
+    log    Step2: TextEdit2 image should not be found
     imagePath remove  ${IMAGE_DIR}
-    #region wait     iNotepad2.PNG
-    region exists     iNotepad2.PNG
+    region exists     TextEdit2
 
     # step 3
     log    Step3: iNotepad2 should be found after adding image path
     imagePath add    ${IMAGE_DIR}
-    region exists    iNotepad2
+    region exists    TextEdit2
 
     region paste    Welcome to the all new SikuliX RF library
     sleep  3
@@ -68,13 +68,13 @@ Test Notepad With SikuliX
     region type    text=A    modifier=SikuliXJClass.Key.CTRL
     region type    SikuliXJClass.Key.DELETE
 
-    region paste   Welcome to the all new SikuliX RF libraryy    iNotepad=0.7    14    60
-    region wait    iNotepad typed
+    region paste   Welcome to the all new SikuliX RF libraryy    TextEdit edited=0.7    14    60
+    region wait    TextEdit typed
     region type    SikuliXJClass.Key.BACKSPACE
 
     # step 5
     log    Step5: get all region text by OCR
-    ${text}     region text    iNotepad typed
+    ${text}     region text    TextEdit typed
     log  ${text}
 
     # step 6
@@ -90,48 +90,51 @@ Test Notepad With SikuliX
 
     # step 7
     log    Step7: search and highlight Untitled text
-    ${found}    region existsText    *Untitled
+    ${found}    region existsText    Format
     log  ${found}
     region highlight    3
     region highlightAllOff
 
     # step 8
-    log    Step8: right click on iNotepad - will fail if SKIP is not used next
+    log    Step8: right click on TextEdit - will fail if SKIP is not used next
     region setFindFailedResponse    SKIP
-    region rightClick    iNotepad    48    14
+    region rightClick    TextEdit    48    14
     sleep  3
 
     # step 9
     log    Step9: use correct image for right click
     region setFindFailedResponse    ABORT
     ${prev}    settings set    MinSimilarity    ${0.7}
-    region rightClick    iNotepad typed    48    14
+    #region rightClick    TextEdit typed    48    14
 
     # coordinates relative to upper left corner of the image
-    region click    iNotepad menu    54    80
-    app focus       leafpad
-
-    region click    iNotepad typed    50    12
-    # use previous found region
-    region rightClick    None    0    0    True
+    region click    TextEdit menu    338    8
+    region click    TextEdit window    48    10
+    
+    region click    TextEdit menu    338    8
 
     # step 10
-    log    Step10: same as step 9, with coordinates relative to center
     # coordinates relative to center of the image
+    log    Step10: same as step 9, with coordinates relative to center
     set offsetCenterMode    ${True}
-    region click    iNotepad menu    -10    10
-    app focus       leafpad
+    region click    TextEdit window2    -128    116
 
     # step 11
     log    Step11: dragDrop Notepad
     set offsetCenterMode    ${False}
     ${prev}    settings set    DelayBeforeDrop    ${2.0}
-    region dragDrop    iNotepad typed  iNotepad typed    50    12    100    12
+    region dragDrop    TextEdit typed  TextEdit typed    60    12    110    12
 
     # step 12
     log    Step12: delete everything and close Notepad
     region type    text=A    modifier=SikuliXJClass.Key.CTRL
     region type    SikuliXJClass.Key.DELETE
 
-    app close    leafpad
-    #destroy vm
+    app close    TextEdit
+    destroy vm
+    
+*** Keywords ***
+Exit Here
+    app close    TextEdit
+    destroy vm
+    pass execution  .
