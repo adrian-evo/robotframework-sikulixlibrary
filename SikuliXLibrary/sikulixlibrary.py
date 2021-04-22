@@ -15,7 +15,11 @@ class SikuliXLibrary(SikuliXRegion,
                      SikuliXSettings):
     
     ''' The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype or Py4J Python modules.
-
+    
+    It can be enabled to use by choice any of the JPype or Py4J modules. This is done by creating SIKULI_PY4J environment variable 
+    and setting to 1 for using Py4J. When not defined or set to 0, JPype is used instead. 
+    Please note that on MacOS, only Py4J can be used, while on Windows or Ubuntu, any of them is working.
+    
     So far, the only approach to use SikuliX Java library within Robot Framework was through Remote library and Jython 2.7.
     The existing ``robotframework-SikuliLibrary`` and other known custom implementations (e.g. mostly based on old 
     blog.mykhailo.com/2011/02/how-to-sikuli-and-robot-framework.html) are using Remote library approach only, which is now obsolete.

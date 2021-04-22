@@ -16,11 +16,11 @@ ${DEFAULT_WAIT}     ${15}
 
 
 *** Test Cases ***
-Test Notepad With SikuliX
+Test TextEdit With SikuliX
     Set Log Level    TRACE
     log java bridge
 
-    # local path for image files. images below have iNotepad prefix so that to differentiate from text Notepad
+    # local path for image files.
     imagePath add    ${IMAGE_DIR}
 
     set sikuli resultDir    ${OUTPUT DIR}
@@ -56,7 +56,7 @@ Test Notepad With SikuliX
     region exists     TextEdit2
 
     # step 3
-    log    Step3: iNotepad2 should be found after adding image path
+    log    Step3: TextEdit2 should be found after adding image path
     imagePath add    ${IMAGE_DIR}
     region exists    TextEdit2
 
@@ -120,13 +120,13 @@ Test Notepad With SikuliX
     region click    TextEdit window2    -128    116
 
     # step 11
-    log    Step11: dragDrop Notepad
+    log    Step11: dragDrop TextEdit
     set offsetCenterMode    ${False}
     ${prev}    settings set    DelayBeforeDrop    ${2.0}
     region dragDrop    TextEdit typed  TextEdit typed    60    12    110    12
 
     # step 12
-    log    Step12: delete everything and close Notepad
+    log    Step12: delete everything and close TextEdit
     region type    text=A    modifier=SikuliXJClass.Key.CTRL
     region type    SikuliXJClass.Key.DELETE
 

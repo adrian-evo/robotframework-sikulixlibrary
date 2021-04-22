@@ -1,12 +1,12 @@
 *** Settings ***
 Documentation   Test case to demonstrate SikuliX library keywords usage
 ...             Install first with 'pip install robotframework-sikulixlibrary'
-...             The reference images from img directory are generated on 1920 x 1080 screen, regenerate them for different resolutions
+...             The reference images from img directory are generated on 1440 x 900 virtual screen, regenerate them for different environment
 ...
 
 # Library         SikuliXLibrary
 # Initialize library with sikuli_path or use SIKULI_PATH environment variable (recommended)
-Library         SikuliXLibrary  sikuli_path=sikulix2.0.4.jar
+Library         SikuliXLibrary  sikuli_path=sikulixide-2.0.5.jar
 #Library         SikuliXLibrary  sikuli_path=/Home/eclipse/sikulix/sikulix.jar  image_path=  logImages=${True}  centerMode=${False}
 Library         OperatingSystem
 
@@ -17,11 +17,11 @@ ${DEFAULT_WAIT}     ${15}
 
 
 *** Test Cases ***
-Test Notepad With SikuliX
+Test Leafpad With SikuliX
     Set Log Level    TRACE
     log java bridge
 
-    # local path for image files. images below have iNotepad prefix so that to differentiate from text Notepad
+    # local path for image files.
     imagePath add    ${IMAGE_DIR}
 
     set sikuli resultDir    ${OUTPUT DIR}
@@ -43,13 +43,15 @@ Test Notepad With SikuliX
 
     # step 1
     log    Step1: open Leafpad
-    app open     leafpad
+    
+    # TODO: Enable after https://github.com/RaiMan/SikuliX1/issues/438 is fixed
+    #app open     leafpad
     region wait  Leafpad
 
     #pass execution  .
 
     # step 2
-    # message is Notepad2 not found after removing path
+    # message is Leafpad2 not found after removing path
     log    Step2: Leafpad2 image should not be found
     imagePath remove  ${IMAGE_DIR}
     region exists     Leafpad2
@@ -122,7 +124,7 @@ Test Notepad With SikuliX
     #app focus       Leafpad
 
     # step 11
-    log    Step11: dragDrop Notepad
+    log    Step11: dragDrop Leafpad
     set offsetCenterMode    ${False}
     ${prev}    settings set    DelayBeforeDrop    ${2.0}
     region dragDrop    Leafpad typed  Leafpad typed    50    12    100    12

@@ -6,7 +6,7 @@ import time, os, sys
 
 if __name__ == "__main__":
     start_time = time.time()
-    # local path for image files. Images below have iNotepad prefix so that to differentiate from text Notepad
+    # local path for image files.
     img_path = os.getcwd() + '/img/Ubuntu'
     print(img_path)
     if not os.path.exists(img_path):
@@ -14,7 +14,7 @@ if __name__ == "__main__":
         sys.exit()
 
     # sikuli_path: empty for path from SIKULI_HOME + sikulix.jar, not empty might be either SIKULI_HOME + given jar name or full path
-    sikuli_path = 'sikulix2.0.4.jar'
+    sikuli_path = 'sikulixide-2.0.5.jar'
 
     lib = SikuliXLibrary(sikuli_path, img_path, logImages=False)
     lib.log_java_bridge()
@@ -42,7 +42,10 @@ if __name__ == "__main__":
     print('Settings MinSimilarity (0.7 -> 0.9): %s -> %s' % (pre, lib.settings_get('MinSimilarity')))
 
     print('=======Step: open Leafpad')
-    lib.app_open("leafpad")
+    
+    # TODO: Enable after https://github.com/RaiMan/SikuliX1/issues/438 is fixed
+    #lib.app_open("leafpad")
+
     lib.region_wait('Leafpad')
     print('Wait with timeout: 1 second')
     lib.region_wait('Leafpad', 1)
@@ -56,7 +59,7 @@ if __name__ == "__main__":
 
     #exit_here()
         
-    # message is Notepad2 not found after removing path
+    # message is Leafpad2 not found after removing path
     print('=======Step: Leafpad2 image should not be found')
     lib.imagePath_remove(img_path)
     res = lib.region_exists('Leafpad2')
@@ -117,7 +120,7 @@ if __name__ == "__main__":
     lib.region_waitText('Untitled', 5)
     lib.region_doubleClick(useLastMatch=True)
     
-    print('=======Step: right click on iNotepad - will fail if SKIP is not used next')
+    print('=======Step: right click on Leafpad - will fail if SKIP is not used next')
     lib.region_setFindFailedResponse('SKIP')
     print('FindFailed (SKIP): ', lib.region_getFindFailedResponse())
     lib.region_rightClick('Leafpad', 48, 14)

@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
     #exit_here()
         
-    # message is Notepad2 not found after removing path
+    # message is TextEdit2 not found after removing path
     print('=======Step: TextEdit2 image should not be found')
     lib.imagePath_remove(img_path)
     res = lib.region_exists('TextEdit2.PNG')
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     lib.region_click('TextEdit window2', -128, 116)
     #lib.app_focus('TextEdit')
 
-    print('=======Step: dragDrop Notepad')
+    print('=======Step: dragDrop TextEdit')
     lib.set_offsetCenterMode(False)
     prev = lib.settings_set('DelayBeforeDrop', float(2.0))
     lib.region_dragDrop('TextEdit typed', 'TextEdit typed', 60, 12, 110, 12)

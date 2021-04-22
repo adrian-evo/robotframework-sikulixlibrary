@@ -27,13 +27,14 @@ See [keyword documentation](https://adrian-evo.github.io/SikuliXLibrary.html).
 3. or Py4J 0.10.9.2 or newer
 4. SikuliX as a standalone jar from project page: https://raiman.github.io/SikuliX1/downloads.html
 	- Put jar file in any local directory (e.g. C:\sikulix\sikulix.jar)
+	- Py4J server is enabled from SikuliX 2.0.5 onward and currently advertised as experimental. However, this library is working as expected with Py4J.
 	- Recommended to use environment variable SIKULI_HOME that point to sikulix local directory
 5. `pip install robotframework-sikulixlibrary`
 
 While JPype JVM is always started automatically, Py4J JVM can be started manually or automatically. To start manually, use the command:
-	> java -jar sikulix.jar -p (to start Py4J server)
-	> java -jar -DsikuliDebug=3 sikulixide.jar -p (useful e.g. for checking sikulix debug info)
-	
+
+`java -jar sikulix.jar -p` (to start Py4J server) or
+`java -jar -DsikuliDebug=3 sikulixide.jar -p` (useful e.g. for checking sikulix debug info)
 
 # Examples
 
@@ -54,7 +55,8 @@ Example Test
 ### Testing with [Python](https://python.org).
 ```python
 from SikuliXLibrary import SikuliXLibrary
-lib = SikuliXLibrary()
+sikuli_path = 'sikulixide-2.0.5.jar'
+lib = SikuliXLibrary(sikuli_path)
 lib.imagePath_add('my_path')
 lib.settings_set('MinSimilarity', float(0.9))
 lib.app_open("C:\\Windows\\System32\\notepad.exe")
@@ -63,20 +65,29 @@ lib.region_paste('Welcome!)
 ```
 
 # Testing
-Git clone and execute runtest.bat to run all *.robot files from within test directory, or run individual robot files.
+Git clone, and if not using pip install for this library, then just point PYTHONPATH to local robotframework-sikulixlibrary folder and execute:
 
-Additionally, debugging with Robot Editor - RED (https://github.com/nokia/RED) is also possible with this library, for both Robot Framework and Pyton code.
+`python testlibrary_win.py` (or any .py file from under test directory and for OS of choice
+
+`robot --outputdir results/default test_defaultlibrary_win.robot` (or any .robot file from under test directory and for OS of choice)
+
+Obviously, image files from test/img/MacOS, Ubuntu or Windows might not work on specific environment and would need to be regenerated. Also for these tests SIKULI_PATH is defined and the name of SikuliX is `sikulixide-2.0.5.jar`
+
+Additionally, debugging with Robot Editor - RED (https://github.com/nokia/RED) or Eclipse with RED plugin is also possible with this library, for both Robot Framework and Pyton code.
 
 # Supported Operating Systems
 
 1. Windows 10
-	- supported, tested
+	- supported, tested with both JPype and Py4J
 
 2. OSX
 	- SikuliX works under OSX, however currently there are issues with JPype generally working under OSX: https://github.com/jpype-project/jpype/issues/911
+	- Py4J tested and working under MacOS and always enabled without definding SIKULI_PY4J environment variable. However, forcing JPype for experimental purpose is
+	possible with environment variable SIKULI_PY4J=0.
 
 3. Linux
-	- supported, tested with Ubuntu 20.04 and leafpad application
+	- supported, tested with Ubuntu 20.04 and Leafpad application. Tested with both JPype and Py4J.
+	- due to https://github.com/RaiMan/SikuliX1/issues/438, openApp is not currently working with SikuliX 2.0.5, thus it is disabled in the test .py and .robot code for Ubuntu.
+	This means you have to start the test and open manually Leafpad app in order for tests to succeed.
 	- tested with: python3.8, default-jre (openjdk-11-jre), libopencv4.2-java as explained on SikuliX support page, gnome-panel, `pip install robotframework-sikulixlibrary`
-	- obviously images from test/img directory needs to be regenerated for the application of choice, adjust SikuliX path in .robot file and use `app open  leafpad` instead.
-	- start the tests with e.g. `python -m robot --outputdir results/ubuntu test_defaultlibrary.robot`
+	- start the tests with e.g. `python -m robot --outputdir results/ubuntu test_defaultlibrary_ubuntu.robot` or `python testlibrary_ubuntu.py`
