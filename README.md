@@ -1,6 +1,8 @@
 # robotframework-sikulixlibrary
 The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype or Py4J Python modules.
 
+It can be used with e.g. Robot Framework projects (https://robotframework.org), Robocorp projects (https://robocorp.com) - the easiest approach for beginners or with pure Python projects.
+
 [JPype](https://github.com/jpype-project/jpype) is a Python module to provide full access to Java from within Python. 
 
 [Py4J](https://github.com/bartdag/py4j) enables Python programs running in a Python interpreter to dynamically access Java objects in a JVM.
@@ -91,3 +93,7 @@ Additionally, debugging with Robot Editor - RED (https://github.com/nokia/RED) o
 	This means you have to start the test and open manually Leafpad app in order for tests to succeed.
 	- tested with: python3.8, default-jre (openjdk-11-jre), libopencv4.2-java as explained on SikuliX support page, gnome-panel, `pip install robotframework-sikulixlibrary`
 	- start the tests with e.g. `python -m robot --outputdir results/ubuntu test_defaultlibrary_ubuntu.robot` or `python testlibrary_ubuntu.py`
+
+# Known Issues
+
+- When using Py4J, libdoc will not generate library documentation within IDE, e.g. RED - Robot Editor or Eclipse with RED, maybe also not within Visual Studio Code with Robocorp plugins. The workaround is to start manually SikuliX Py4J server (see above), then reload the library to generate the keyword documentation.
