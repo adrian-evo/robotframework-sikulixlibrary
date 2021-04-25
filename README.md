@@ -1,7 +1,7 @@
 # robotframework-sikulixlibrary
 The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype or Py4J Python modules.
 
-It can be used with e.g. Robot Framework projects (https://robotframework.org), Robocorp projects (https://robocorp.com) - the easiest approach for beginners or with pure Python projects.
+It can be used with e.g. Robot Framework projects (https://robotframework.org), Robocorp projects (https://robocorp.com) - the easiest approach for beginners or with pure Python projects. Either for Test Automation type of projects, or for open source RPA (Robot Process Automation) projects.
 
 [JPype](https://github.com/jpype-project/jpype) is a Python module to provide full access to Java from within Python. 
 
