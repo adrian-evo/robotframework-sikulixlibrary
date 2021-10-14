@@ -4,7 +4,7 @@ Documentation   Test case to demonstrate SikuliX library keywords usage
 ...             The reference images from img directory are generated on 1440 x 900 MacOS screen, Dark mode. Regenerate them for different environment
 ...
 
-# Initialize library with sikuli_path or use SIKULI_PATH environment variable (recommended)
+# Initialize library with sikuli_path or use SIKULI_HOME environment variable (recommended)
 Library         SikuliXLibrary  sikuli_path=sikulixide-2.0.5.jar
 #Library         SikuliXLibrary  sikuli_path=sikulixide-2.0.5.jar  image_path=  logImages=${True}  centerMode=${False}
 Library         OperatingSystem

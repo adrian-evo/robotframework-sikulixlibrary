@@ -5,7 +5,7 @@ Documentation   Test case to demonstrate SikuliX library keywords usage
 ...
 
 # Library         SikuliXLibrary
-# Initialize library with sikuli_path or use SIKULI_PATH environment variable (recommended)
+# Initialize library with sikuli_path or use SIKULI_HOME environment variable (recommended)
 Library         SikuliXLibrary  sikuli_path=sikulixide-2.0.5.jar
 #Library         SikuliXLibrary  sikuli_path=/Home/eclipse/sikulix/sikulix.jar  image_path=  logImages=${True}  centerMode=${False}
 Library         OperatingSystem

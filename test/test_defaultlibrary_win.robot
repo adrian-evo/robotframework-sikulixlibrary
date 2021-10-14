@@ -5,7 +5,7 @@ Documentation   Test case to demonstrate SikuliX library keywords usage
 ...    
 
 Library         SikuliXLibrary  sikuli_path=sikulixide-2.0.5.jar
-# Initialize library with sikuli_path or use SIKULI_PATH environment variable (recommended)
+# Initialize library with sikuli_path or use SIKULI_HOME environment variable (recommended)
 #Library         SikuliXLibrary  sikuli_path=C:/sikuli/sikulix.jar  image_path=  logImages=${True}  centerMode=${False}
 Library         OperatingSystem
 
@@ -44,7 +44,15 @@ Test Notepad With SikuliX
     log    Step1: open Notepad
     app open     C:/Windows/System32/notepad.exe
     #region wait  iNotepad mod.PNG
+
+    # different mask and similarity options given
     region wait  iNotepad.PNG
+    region wait  iNotepad.PNG:0
+    region wait  iNotepad.PNG:iNotepad2
+    region wait  iNotepad.PNG:0=0.69
+    region wait  iNotepad.PNG:iNotepad2=0.71
+    region wait  iNotepad:iNotepad2=0.71
+    region wait  iNotepad.PNG:iNotepad2.PNG=0.71
     
     #pass execution  .
     

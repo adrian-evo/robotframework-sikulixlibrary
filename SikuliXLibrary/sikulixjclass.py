@@ -88,7 +88,7 @@ class SikuliXJClass():
                 sikuli_path = os.path.join(sikuli_home, sikuli_path)
 
         if not os.path.isfile(sikuli_path):
-            raise Exception("SikuliX jar file is missing.")
+            raise FileNotFoundError(sikuli_path)
         libLogger.debug('Use SikuliX file: %s' % sikuli_path)
         
         return sikuli_path

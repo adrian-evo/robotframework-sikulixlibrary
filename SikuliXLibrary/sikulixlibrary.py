@@ -58,6 +58,7 @@ class SikuliXLibrary(SikuliXRegion,
         Pattern will need the following parameters, provided as arguments to this keyword
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as ``img=similarity``
+            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
         - onScreen - reset the region to the whole screen, otherwise it will search on a region defined previously with set parameters keywords
             e.g. `Region SetRect` where the parameters can be from a previous match or known dimension, etc.
     
@@ -72,6 +73,7 @@ class SikuliXLibrary(SikuliXRegion,
         Pattern will need the following parameters, provided as arguments to this keyword
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
+            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner (default with set_offsetCenterMode)
         - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
             

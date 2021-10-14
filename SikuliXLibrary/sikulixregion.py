@@ -94,13 +94,36 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     # Region - find operations
     @not_keyword
     def _prepare_pattern(self, target, dx=0, dy=0):
-        # similarity given as img=similarity
-        if "=" in target:
+        # target can be img, img=similar, img:mask, img:0, img:mask=similar or img:0=similar
+        img = target
+        mask = -1
+        sim = 0
+        if ":" in target:
+            text = target.split(':')
+            img = text[0]
+            mask = text[1]
+            if "=" in mask:
+                text = mask.split('=')
+                mask=text[0]
+                sim=float(text[1])
+        elif "=" in target:
             text = target.split('=')
-            pattern = SikuliXJClass.Pattern(text[0])
-            pattern.similar(float(text[1]))
+            img = text[0]
+            sim=float(text[1])
         else:
-            pattern = SikuliXJClass.Pattern(target)
+            img = target
+
+        logger.trace("Prepare pattern with image: %s" % img)
+        pattern = SikuliXJClass.Pattern(img)
+        if mask == '0':
+            logger.trace("Prepare pattern with mask: default black")
+            pattern.mask()
+        elif mask != -1:
+            logger.trace("Prepare pattern with mask: %s" % mask)
+            pattern.mask(mask)
+        if sim != 0:
+            logger.trace("Prepare pattern with similarity: %s" % sim)
+            pattern.similar(sim)
 
         # if dx and dy are not given, no target offset is given and click is center of image
         if dx == 0 and dy == 0:
@@ -180,6 +203,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         Pattern will need the following parameters, provided as arguments on this keyword
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
+            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
         - onScreen - reset the region to the whole screen, otherwise will search on a region defined previously with set parameters keywords
             e.g. `Region SetRect` where the parameters can be from a previous match or known dimensions, etc.
         
@@ -286,6 +310,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         Pattern will need the following parameters, provided as arguments on this keyword
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
+            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner (default with `Set OffsetCenterMode`)
         - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
             if implicit find operation is needed, assume the region is the whole screen.
@@ -380,6 +405,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         Pattern will need the following parameters, provided as arguments on this keyword
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
+            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner (default with `set offsetCenterMode`)
         
         If target is omitted, it performs the paste on the current focused component (normally an input field).
@@ -455,6 +481,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         Pattern will need the following parameters, provided as arguments on this keyword
             - target - a string path to an image file
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
+            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner (default with Set OffsetCenterMode)
         - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
             
