@@ -100,7 +100,8 @@ Note: Since Robot Framework 4.x is no longer supported by RED and Eclipse, the r
 
 - When using Py4J, libdoc will not generate library documentation within IDE, e.g. RED - Robot Editor or Eclipse with RED, maybe also not within Visual Studio Code with Robocorp plugins. The workaround is to start manually SikuliX Py4J server (see above), then reload the library to generate the keyword documentation.
 
-= When generating library documentation within IDE, the library is instantiated with no arguments and it will look for sikulix.jar file within SIKULI_HOME environment variable defined directory, so make sure this file is there even if it is a duplicate of e.g. sikulixide-2.0.5.jar. Otherwise, it is also possible to manually generate the libspec with the following command, and copy it under project folder or PYTHONPATH.
+- When generating library documentation within IDE, the library is instantiated with no arguments and it will look for sikulix.jar file within SIKULI_HOME environment variable defined directory, so make sure this file is there even if it is a duplicate of e.g. sikulixide-2.0.5.jar. Otherwise, it is also possible to manually generate the libspec with the following command, and copy it under project folder or PYTHONPATH:
+
 `python -m robot.libdoc SikuliXLibrary::sikuli_path=path\to\sikulixide-2.0.5.jar SikuliXLibrary.libspec`
 
 See this documentation for reference:
