@@ -32,6 +32,7 @@ See [keyword documentation](https://adrian-evo.github.io/SikuliXLibrary.html).
 	- Py4J server is enabled from SikuliX 2.0.5 onward and currently advertised as experimental. However, this library is working as expected with Py4J.
 	- Recommended to use environment variable SIKULI_HOME that point to sikulix local directory
 5. `pip install robotframework-sikulixlibrary`
+6. Check Known issues section below if libspec is not generated within your environment (RF IDE tool) and thus library keywords are not recognised
 
 While JPype JVM is always started automatically, Py4J JVM can be started manually or automatically. To start manually, use the command:
 
@@ -75,9 +76,7 @@ Git clone, and if not using pip install for this library, then just point PYTHON
 
 Obviously, image files from test/img/MacOS, Ubuntu or Windows might not work on specific environment and would need to be regenerated. Also for these tests SIKULI_PATH is defined and the name of SikuliX is `sikulixide-2.0.5.jar`
 
-Additionally, debugging with Robot Editor - RED (https://github.com/nokia/RED) or Eclipse with RED plugin is also possible with this library, for both Robot Framework and Pyton code.
-
-Note: Since Robot Framework 4.x is no longer supported by RED and Eclipse, the recommended new tool is Visual Studio Code with Robot Framework Language Server by Robocorp.
+Additionally, debugging with some RF supported tools is also possible with this library, for both Robot Framework and Pyton code. Python library debugging was tested with Visual Studio Code with Robot Framework Language Server by Robocorp, by using `debug test.py` file. Also Robot Framework test code from within test directory was tested with debugging, with the same tool, by creating a specific configuration within launch.json file (VSCode specific file).
 
 # Supported Operating Systems
 

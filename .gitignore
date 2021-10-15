@@ -1,2 +1,6 @@
 *.pyc
 results/
+build/
+robotframework_sikulixlibrary.egg-info/
+dist/
+.vscode/

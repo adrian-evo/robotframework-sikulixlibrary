@@ -29,7 +29,7 @@ class SikuliXLibrary(SikuliXRegion,
      
     With the help of this new library, SikuliX implementation can be used now natively with Robot Framework and Python 3.x:
     - robotremoteserver and Remote library are not needed anymore
-    - debugging with Robot Editor - RED or Eclipse is finally possible for both Robot Framework and Python code
+    - debugging with some RF supporting tools
     
     - very easy to extend the library with new keywords, or overwrite existing keywords and methods by extending the main class, e.g.
     |    class ImageHorizonLibraryMigration(SikuliXLibrary):
@@ -75,6 +75,9 @@ class SikuliXLibrary(SikuliXRegion,
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner (default with set_offsetCenterMode)
+                Note: within RF, coordinates can be given both as string or numbers, for any keyword that needs coordinates, e.g.:
+                        'Region Click  10  10'
+                        'Region Click  ${10}  ${10}
         - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
             
             if implicit find operation is needed, assume the region is the whole screen.

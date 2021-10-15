@@ -85,11 +85,13 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     def region_setRect(self, x, y, w, h):
         '''
         Set position and dimension of the current region to new values. Upper left corner, width and height.
+        Can be given as strings or numbers with ${}
         
         Current region as full screen:
-        | Region | SetRect | 0 | 0 | 1920 | 1080 | 
+        | Region | SetRect | 0 | 0 | 1920 | 1080 |
+        | Region | SetRect | ${0} | ${0} | ${1920} | ${1080} |
         '''
-        self.appRegion.setRect(x, y, w, h)
+        self.appRegion.setRect(int(x), int(y), int(w), int(h))
         
     # Region - find operations
     @not_keyword
@@ -318,6 +320,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         Region Click with no arguments will either click the center of the last used Region or the lastMatch, if any is available.
         
         | Region Click | image.png=0.7 | dx | dy |
+        | Region Click | image.png=0.7 | ${dx} | ${dy} |
         | Region Click | image | dx | dy | useLastMatch=${True} |
         '''
         return self._region_mouseAction('click', target, dx, dy, useLastMatch)
@@ -356,7 +359,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         | Region MouseMove | x | y |
         '''
-        return self.appScreen.mouseMove(xoff, yoff)
+        return self.appScreen.mouseMove(int(xoff), int(yoff))
     
     # Region - highlights operations
     @keyword

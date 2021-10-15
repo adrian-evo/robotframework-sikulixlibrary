@@ -27,6 +27,8 @@ class SikuliXLogger():
     def set_sikuli_resultDir(self, path):
         '''
         Used to set the directory where to save the screenshots for the log file
+
+        | Set Sikuli resultDir | path |
         '''
         SikuliXLogger.resultDir = path
 
@@ -34,6 +36,8 @@ class SikuliXLogger():
     def set_passedLogImages(self, mode):
         '''
         Enable or disable logging of the images when keyword passes
+
+        | Set passedLogImages | ${True} |
         '''
         scr = self.passedLogImages
         self.passedLogImages = mode
@@ -43,6 +47,8 @@ class SikuliXLogger():
     def set_failedLogImages(self, mode):
         '''
         Enable or disable logging of the images when keyword fails
+
+        | Set failedLogImages | ${True} |
         '''
         scr = self.failedLogImages
         self.failedLogImages = mode
@@ -52,6 +58,8 @@ class SikuliXLogger():
     def set_notFoundLogImages(self, mode):
         '''
         Enable or disable logging of the images when the image is not found (for keywords that does not throw exception)
+
+        | Set notFoundLogImages | ${True} |
         '''
         scr = self.notFoundLogImages
         self.notFoundLogImages = mode
@@ -61,6 +69,8 @@ class SikuliXLogger():
     def log_warning(self, msg):
         '''
         Print text in the log with the label WARNING:
+
+        | Log Warning | msg |
         '''
         logger.warn("WARNING: %s" % msg)
 

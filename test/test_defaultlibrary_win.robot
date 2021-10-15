@@ -40,6 +40,9 @@ Test Notepad With SikuliX
     # default min similarity
     ${prev}    settings set    MinSimilarity    ${0.9}
 
+    region setRect    0  0  1920  1080
+    region setRect    ${0}  ${0}  ${1920}  ${1080}
+
     # step 1
     log    Step1: open Notepad
     app open     C:/Windows/System32/notepad.exe
@@ -47,13 +50,17 @@ Test Notepad With SikuliX
 
     # different mask and similarity options given
     region wait  iNotepad.PNG
-    region wait  iNotepad.PNG:0
-    region wait  iNotepad.PNG:iNotepad2
-    region wait  iNotepad.PNG:0=0.69
-    region wait  iNotepad.PNG:iNotepad2=0.71
-    region wait  iNotepad:iNotepad2=0.71
-    region wait  iNotepad.PNG:iNotepad2.PNG=0.71
-    
+    #region wait  iNotepad.PNG:0
+    #region wait  iNotepad.PNG:iNotepad2
+    #region wait  iNotepad.PNG:0=0.69
+    #region wait  iNotepad.PNG:iNotepad2=0.71
+    #region wait  iNotepad:iNotepad2=0.71
+    #region wait  iNotepad.PNG:iNotepad2.PNG=0.71
+
+    region click    iNotepad    ${50}    ${50}
+    region mouseMove    100    100
+    region click    iNotepad    50    50
+
     #pass execution  .
     
     # step 2
