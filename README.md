@@ -22,11 +22,11 @@ See [keyword documentation](https://adrian-evo.github.io/SikuliXLibrary.html).
 
 # Installation instructions (Windows)
 
-1. Python 3.5 or newer, as supported by JPype or Py4J
-2. JPype 1.2 or newer and JPype project dependencies as explained on project page: https://github.com/jpype-project/jpype
+1. Python 3.7 or newer, as supported by JPype or Py4J
+2. JPype 1.4.0 or newer and JPype project dependencies as explained on project page: https://github.com/jpype-project/jpype
 	- Install Java 8 or newer
 	- While not mentioned on JPype page, on a new Windows 10 machine also Visual C++ Redistributable 2015 and newer are needed (e.g. vc_redist.x64.exe)
-3. or Py4J 0.10.9.2 or newer
+3. or Py4J 0.10.9.5 or newer
 4. SikuliX as a standalone jar from project page: https://raiman.github.io/SikuliX1/downloads.html
 	- Put jar file in any local directory (e.g. C:\sikulix\sikulix.jar)
 	- Py4J server is enabled from SikuliX 2.0.5 onward and currently advertised as experimental. However, this library is working as expected with Py4J.
@@ -97,7 +97,7 @@ Additionally, debugging with some RF supported tools is also possible with this 
 
 # Known Issues
 
-- When using Py4J, libdoc will not generate library documentation within IDE, e.g. RED - Robot Editor or Eclipse with RED, maybe also not within Visual Studio Code with Robocorp plugins. The workaround is to start manually SikuliX Py4J server (see above), then reload the library to generate the keyword documentation.
+- When using Py4J, libdoc will not generate library documentation within IDE, e.g. Visual Studio Code with Robocorp extension (Robot Framework Language Server). The workaround is to start manually SikuliX Py4J server (see above or run `java -jar sikulix.jar -p`), then reload the library to generate the keyword documentation. If not using pip install for this library, then the extension settings.json need to have pythonpath set to local robotframework-sikulixlibrary folder.
 
 - When generating library documentation within IDE, the library is instantiated with no arguments and it will look for sikulix.jar file within SIKULI_HOME environment variable defined directory, so make sure this file is there even if it is a duplicate of e.g. sikulixide-2.0.5.jar. Otherwise, it is also possible to manually generate the libspec with the following command, and copy it under project folder or PYTHONPATH:
 
