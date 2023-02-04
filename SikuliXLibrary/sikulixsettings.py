@@ -17,14 +17,15 @@ class SikuliXSettings(SikuliXJClass):
         | Settings Set | Highlight | ${True} |
         '''
         if useJpype:
-            previous = SikuliXJClass.Settings.class_.getDeclaredField(variable).get(None)
-            SikuliXJClass.Settings.class_.getDeclaredField(variable).set(None, value)
+            target = SikuliXJClass.Settings.class_.getDeclaredField(variable)
         else:
-            #previous = SikuliXJClass.Settings().getClass().getDeclaredField(variable).get(None)
-            #SikuliXJClass.Settings().getClass().getDeclaredField(variable).set(None, value)
+            target = get_java_class(SikuliXJClass.Settings).getDeclaredField(variable)
 
-            previous = get_java_class(SikuliXJClass.Settings).getDeclaredField(variable).get(None)
-            get_java_class(SikuliXJClass.Settings).getDeclaredField(variable).set(None, value)
+        previous = target.get(None)
+        if str(target.getGenericType()) == 'float':
+            target.set(None, JFloat(value))
+        else:
+            target.set(None, value)
 
         return previous
 
