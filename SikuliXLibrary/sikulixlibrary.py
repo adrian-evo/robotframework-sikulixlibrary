@@ -53,7 +53,8 @@ class SikuliXLibrary(SikuliXRegion,
     
     The keywords are matching as much as possible the original SikuliX functions so that it is easier to understand them from 
     the official documentation: https://sikulix-2014.readthedocs.io/en/latest/index.html
-    E.g. SikuliX class Region.find(PS) function is translated into Python and Robot keyword as ``region_find(target, onScreen)``
+    E.g. ``SikuliX class Region.find(PS)`` function is translated into Python and Robot keyword as 
+    ``region_find(target, onScreen)``
 
         ``region_find = Region.find(PS)``, where PS is a Pattern or String that define the path to an image file
         
@@ -62,7 +63,7 @@ class SikuliXLibrary(SikuliXRegion,
             - similar - minimum similarity. If not given, the default is used. Can be set as ``img=similarity``
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
         - onScreen - reset the region to the whole screen, otherwise it will search on a region defined previously with set parameters keywords
-            e.g. `Region SetRect` where the parameters can be from a previous match or known dimension, etc.
+            e.g. `Region Set Rect` where the parameters can be from a previous match or known dimension, etc.
     
     Compared with other libraries, the import parameter ``centerMode`` will allow using click coordinates relative to center of the image,
     otherwise the click coordinates are relative to upper left corner (default).
@@ -78,20 +79,26 @@ class SikuliXLibrary(SikuliXRegion,
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner (default with set_offsetCenterMode)
                 Note: within RF, coordinates can be given both as string or numbers, for any keyword that needs coordinates, e.g.:
-                        'Region Click  10  10'
-                        'Region Click  ${10}  ${10}
+                        ``Region Click  10  10`` or ``Region Click  ${10}  ${10}``
         - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
             
             if implicit find operation is needed, assume the region is the whole screen.
         
         Region Click with no arguments will either click the center of the last used Region or the lastMatch, if any is available.
-    
+        
+        = Debugging =
+        When writing test cases and keywords it is important to understand the precise effect of the code written.
+        The following tools can help to understand what's going on, in order of detail level:
+            - Robot Framework's own
+            [https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#log-levels|`Set Log Level`]
+            - Vizualisation tools offered by SikuliXLibrary as `Settings Set Show Actions` and `Region Highlight`
+            - Additional logging of the SikuliX core engine, enabled by the keyword `Set Debug`.
     '''
     @not_keyword
     def __init__(self, sikuli_path='', image_path='', logImages=True, centerMode=False):
         '''
         | sikuli_path | Path to sikulix.jar file. If empty, it will try to use SIKULI_HOME environment variable. |
-        | image_path |  Initial path to image library. More paths can be added later with the keyword `ImagePath Add` |
+        | image_path |  Initial path to image library. More paths can be added later with the keyword `Image Path Add` |
         | logImages | Default True, if screen captures of found images and whole screen if not found, are logged in the final result log.html file |
         | centerMode | Default False, if should calculate the click offset relative to center of the image or relative to upper left corner. |
         '''
