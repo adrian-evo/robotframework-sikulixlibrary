@@ -6,13 +6,15 @@ from .sikulixregion import *
 from .sikulixapp import *
 from .sikuliximagepath import *
 from .sikulixsettings import *
+from .sikulixdebug import *
 
 
 @library(scope='GLOBAL', version=VERSION)
 class SikuliXLibrary(SikuliXRegion, 
                      SikuliXApp, 
                      SikuliXImagePath,
-                     SikuliXSettings):
+                     SikuliXSettings,
+                     SikuliXDebug):
     
     ''' The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype or Py4J Python modules.
     

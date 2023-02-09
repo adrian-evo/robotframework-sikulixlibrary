@@ -7,6 +7,7 @@ from .sikuliximagepath import SikuliXImagePath
 from .sikulixjclass import SikuliXJClass
 from .sikulixlogger import SikuliXLogger
 from .sikulixregion import SikuliXRegion
+from .sikulixdebug import SikuliXDebug
 from .sikulixsettings import SikuliXSettings
 
 
