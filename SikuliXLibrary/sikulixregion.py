@@ -12,9 +12,11 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     def __init__(self, logImages=True, centerMode=False):
         SikuliXLogger.__init__(self, logImages)
 
-        self.appCoordinates = (0, 0, 1920, 1080)
         self.appScreen = SikuliXJClass.Screen()
-        self.appRegion = SikuliXJClass.Region(*self.appCoordinates)
+        br = self.appScreen.getBottomRight()
+        appCoordinates = (0, 0, br.x, br.y)
+        self.appScreen = SikuliXJClass.Screen()
+        self.appRegion = SikuliXJClass.Region(*appCoordinates)
         self.appPattern = SikuliXJClass.Pattern()
         self.appMatch = SikuliXJClass.Match()
         

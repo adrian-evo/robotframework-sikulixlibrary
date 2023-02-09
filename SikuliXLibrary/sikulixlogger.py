@@ -75,8 +75,12 @@ class SikuliXLogger():
         logger.warn("WARNING: %s" % msg)
 
     @not_keyword
-    def _screenshot(self, folder="/screenshots/", region=(0, 0, 1920, 1080)):
+    def _screenshot(self, folder="/screenshots/", region=None):
         # generate unique name for screenshot filename
+        if region == None:
+            br = SikuliXJClass.Screen().getBottomRight()
+            region = (0, 0, br.x, br.y)
+        
         name = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%f') + ".png"
 
         img_src = str(self.appScreen.capture(*region).getFile())
@@ -132,8 +136,7 @@ class SikuliXLogger():
             logger.info('Source Image: <img src="%s" />' % rel_path, True, True)
 
             # screenshot
-            region = (0, 0, 1920, 1080)
-            name = self._screenshot("/screenshots/", region)
+            name = self._screenshot("/screenshots/")
             rel_path = relpath(name, SikuliXLogger.resultDir)
             logger.info('No Match: <img src="%s" />' % rel_path, True, True)
         
@@ -153,8 +156,7 @@ class SikuliXLogger():
             logger.info('Source Image: <img src="%s" />' % rel_path, True, True)
 
             # screenshot
-            region = (0, 0, 1920, 1080)
-            name = self._screenshot("/screenshots/", region)
+            name = self._screenshot("/screenshots/")
             rel_path = relpath(name, SikuliXLogger.resultDir)
             logger.info('Not Found: <img src="%s" />' % rel_path, True, True)
         
