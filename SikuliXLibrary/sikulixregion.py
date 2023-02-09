@@ -24,37 +24,37 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
     # Region - Set operations
     @keyword
-    def set_offsetCenterMode(self, mode):
+    def set_offset_center_mode(self, mode):
         '''
         Set to use click coordinates relative to center of the image (True) or relative to upper left corner (default False).
         
         With this approach, it is very easy to capture a screenshot, open it e.g. in Paint in Windows and the coordinates shown in lower left
         corner are the click coordinates that should be given to the mouse action keywords.
         
-        | Set OffsetCenterMode | ${True} |
+        | Set Offset Center Mode | ${True} |
         '''
         self.offsetCenterMode = mode
 
     @keyword
-    def region_setAutoWait(self, seconds):
+    def region_set_auto_wait(self, seconds):
         '''
         Set the maximum waiting time for all subsequent find operations in that Region.
         
-        | Region SetAutoWait | ${5} |
+        | Region Set Auto Wait | ${5} |
         '''
         self.appRegion.setAutoWaitTimeout(float(seconds))
 
     @keyword
-    def region_getAutoWait(self):
+    def region_get_auto_wait(self):
         '''
         Get the current value of the maximum waiting time for find operation in this region.
         
-        | ${wait} | Region GetAutoWait |
+        | ${wait} | Region Get Auto Wait |
         '''
         return self.appRegion.getAutoWaitTimeout()
 
     @keyword
-    def region_setFindFailedResponse(self, val):
+    def region_set_find_failed_response(self, val):
         '''
         Define the response if SikuliX cannot find the image.  
         
@@ -64,7 +64,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         - SKIP the step
         - RETRY to search again for image
         
-        | Region SetFindFailedResponse | SKIP |
+        | Region Set Find Failed Response | SKIP |
         '''
         if useJpype:
             jVal = SikuliXJClass.FindFailedResponse.class_.getDeclaredField(val).get(None)
@@ -73,23 +73,23 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         self.appRegion.setFindFailedResponse(jVal)
 
     @keyword
-    def region_getFindFailedResponse(self):
+    def region_get_find_failed_response(self):
         '''
         Return the response set if SikuliX cannot find the image.  
         
-        | ${val} | Region SetFindFailedResponse |
+        | ${val} | Region Get Find Failed Response |
         '''
         return self.appRegion.getFindFailedResponse()
 
     @keyword
-    def region_setRect(self, x, y, w, h):
+    def region_set_rect(self, x, y, w, h):
         '''
         Set position and dimension of the current region to new values. Upper left corner, width and height.
         Can be given as strings or numbers with ${}
         
         Current region as full screen:
-        | Region | SetRect | 0 | 0 | 1920 | 1080 |
-        | Region | SetRect | ${0} | ${0} | ${1920} | ${1080} |
+        | Region Set Rect | 0 | 0 | 1920 | 1080 |
+        | Region Set Rect | ${0} | ${0} | ${1920} | ${1080} |
         '''
         self.appRegion.setRect(int(x), int(y), int(w), int(h))
         
@@ -233,13 +233,13 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return self._region_findOperation('wait', target, seconds, onScreen)
 
     @keyword
-    def region_waitVanish(self, target, seconds=0, onScreen=True):
+    def region_wait_vanish(self, target, seconds=0, onScreen=True):
         '''
         Wait until the particular pattern, which is the given image vanishes the current screen. See `Region Find` for more details.
         
-        Region WaitVanish repeat search until timeout expires and does not throw exception.
+        Region Wait Vanish repeat search until timeout expires and does not throw exception.
 
-        | Region WaitVanish | image | 10s |
+        | Region Wait Vanish | image | 10s |
         '''
         return self._region_findOperation('waitVanish', target, seconds, onScreen)
 
@@ -326,20 +326,20 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return self._region_mouseAction('click', target, dx, dy, useLastMatch)
 
     @keyword
-    def region_doubleClick(self, target=None, dx=0, dy=0, useLastMatch=False):
+    def region_double_click(self, target=None, dx=0, dy=0, useLastMatch=False):
         '''
         Perform a mouse double-click on the click point using the left button. See `Region Click` for details.
 
-        | Region DoubleClick | image | dx | dy |
+        | Region Double Click | image | dx | dy |
         '''
         return self._region_mouseAction('doubleClick', target, dx, dy, useLastMatch)
 
     @keyword
-    def region_rightClick(self, target=None, dx=0, dy=0, useLastMatch=False):
+    def region_right_click(self, target=None, dx=0, dy=0, useLastMatch=False):
         '''
         Perform a mouse click on the click point using the right button. See `Region Click` for details.
 
-        | Region RightClick | image | dx | dy |
+        | Region Right Click | image | dx | dy |
         '''
         return self._region_mouseAction('rightClick', target, dx, dy, useLastMatch)
 
@@ -353,11 +353,11 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return self._region_mouseAction('hover', target, dx, dy, useLastMatch)
 
     @keyword
-    def region_mouseMove(self, xoff, yoff):
+    def region_mouse_move(self, xoff, yoff):
         '''
         Move the mouse pointer from it’s current position to the position given by the offset values (<0 left, up >0 right, down)
         
-        | Region MouseMove | x | y |
+        | Region Mouse Move | x | y |
         '''
         return self.appScreen.mouseMove(int(xoff), int(yoff))
     
@@ -388,11 +388,11 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                 return self.appRegion.highlight(float(seconds))
 
     @keyword
-    def region_highlightAllOff(self):
+    def region_highlight_all_off(self):
         '''
         Switch off all currently active highlights.
         
-        | Region HighlightAllOff |
+        | Region Highlight All Off |
         '''
         return self.appScreen.highlightAllOff()
 
@@ -474,7 +474,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             return self.appRegion.type(pattern, key, mod)
 
     @keyword
-    def region_dragDrop(self, target1, target2, dx1=0, dy1=0, dx2=0, dy2=0, useLastMatch=False):
+    def region_drag_drop(self, target1, target2, dx1=0, dy1=0, dx2=0, dy2=0, useLastMatch=False):
         '''
         Perform a drag-and-drop operation from a starting click point to the target click point indicated by the two target images respectively.
 
@@ -492,7 +492,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             
             target1 and target2 can be the same image with different click points or separate images
             
-        | Region DragDrop | image1=0.7 | image2 | dx1 | dy1 | dx2 | dy2 |
+        | Region Drag Drop | image1=0.7 | image2 | dx1 | dy1 | dx2 | dy2 |
         '''
         # define a Pattern from second image name - implicit find operation is processed first. 
         pattern2 = self._prepare_pattern(target2, dx2, dy2)
@@ -548,7 +548,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return res
 
     @keyword
-    def region_findText(self, text, onScreen=True):
+    def region_find_text(self, text, onScreen=True):
         '''
         Search for given text on screen or within current region. Does not repeat search and throws FindFailed if not found.
         
@@ -561,43 +561,43 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         is still so, that it cannot be foreseen, which of the possible matches is returned as the result. In doubt you have 
         to use the functions, that return all matches in a region and then filter the result to your needs.
         
-        | Region FindText | text |
+        | Region Find Text | text |
         '''
         return self._region_findTextOperation('findText', text, 0, onScreen)
 
     @keyword
-    def region_waitText(self, text, seconds=0, onScreen=True):
+    def region_wait_text(self, text, seconds=0, onScreen=True):
         '''
         Wait for the given text to appear on screen or current region. Repeat search and throws if not found during the given
         timeout in seconds or as autoWaitTimeout previously.
         
-        | Region WaitText | text | ${10} |
+        | Region Wait Text | text | ${10} |
         '''
         return self._region_findTextOperation('waitText', text, seconds, onScreen)
 
     @keyword
-    def region_waitVanishText(self, text, seconds=0, onScreen=True):
+    def region_wait_vanish_text(self, text, seconds=0, onScreen=True):
         ''' 
         According to SikuliX documentation, not implemented yet.
         '''
         return self._region_findTextOperation('waitVanishText', text, seconds, onScreen)
 
     @keyword
-    def region_existsText(self, text, seconds=0, onScreen=True):
+    def region_exists_text(self, text, seconds=0, onScreen=True):
         '''
         Wait for the given text to appear on screen or current region. Repeat search and does not throws error if not found during the given
         timeout in seconds or as autoWaitTimeout previously.
         
-        | Region ExistsText | text | ${10} |
+        | Region Exists Text | text | ${10} |
         '''
         return self._region_findTextOperation('existsText', text, seconds, onScreen)
 
     @keyword
-    def region_hasText(self, text, seconds=0, onScreen=True):
+    def region_has_text(self, text, seconds=0, onScreen=True):
         '''
         Search for given text on screen or within current region. Does not repeat search and does not throws FindFailed if not found.
 
-        | Region HasText | text |
+        | Region Has Text | text |
         '''
         return self._region_findTextOperation('hasText', text, seconds, onScreen)
 

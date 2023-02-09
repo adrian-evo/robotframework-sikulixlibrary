@@ -15,7 +15,7 @@ class SikuliXImagePath(SikuliXJClass):
         libLogger.debug('SikuliXImagePath init')
         
     @keyword
-    def imagePath_add(self, path):
+    def image_path_add(self, path):
         '''
         Used usually in any suite setup. Will add to SikuliX ImagePath a new directory where to find reference images
         
@@ -24,7 +24,7 @@ class SikuliXImagePath(SikuliXJClass):
         SikuliXJClass.ImagePath.add(path)
 
     @keyword
-    def imagePath_remove(self, path):
+    def image_path_remove(self, path):
         '''
         Will remove from SikuliX ImagePath the given path
 
@@ -33,7 +33,7 @@ class SikuliXImagePath(SikuliXJClass):
         SikuliXJClass.ImagePath.remove(path)
             
     @keyword
-    def imagePath_dump(self):
+    def image_path_dump(self):
         imgPath = list(SikuliXJClass.ImagePath.get())
         for p in imgPath:
             #print("Image PATH: " + str(p))

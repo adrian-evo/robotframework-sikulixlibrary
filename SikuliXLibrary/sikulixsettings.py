@@ -83,20 +83,20 @@ class SikuliXSettings(SikuliXJClass):
             return get_java_class(SikuliXJClass.Settings).getDeclaredField(variable).get(None)
 
     @keyword
-    def settings_setShowActions(self, mode):
+    def settings_set_show_actions(self, mode):
         '''
         If set to True, when a script is run, SikuliX shows a visual effect (a blinking double lined red circle) 
         on the spot where the action will take place before executing actions. Default False
         
-        | Settings SetShowAction | ${True} |
+        | Settings Set Show Action | ${True} |
         '''
         SikuliXJClass.Settings.setShowActions(mode)
 
     @keyword
-    def settings_isShowActions(self):
+    def settings_is_show_actions(self):
         '''
         Return show action mode
         
-        | ${val} | Settings isShowAction |
+        | ${val} | Settings Is Show Action |
         '''
         return SikuliXJClass.Settings.isShowActions()
