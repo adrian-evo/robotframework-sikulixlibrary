@@ -28,8 +28,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         '''
         Set to use click coordinates relative to center of the image (True) or relative to upper left corner (default False).
         
-        With this approach, it is very easy to capture a screenshot, open it e.g. in Paint in Windows and the coordinates shown in lower left
-        corner are the click coordinates that should be given to the mouse action keywords.
+        With this approach, it is very easy to capture a screenshot, open it e.g. in Paint in Windows and the 
+        coordinates shown in lower left corner are the click coordinates that should be given to the mouse action keywords.
         
         | Set Offset Center Mode | ${True} |
         '''
@@ -54,7 +54,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return self.appRegion.getAutoWaitTimeout()
 
     @keyword
-    def region_set_find_failed_response(self, val):
+    def RegionSetFindFailedResponse(self, val):
         '''
         Define the response if SikuliX cannot find the image.  
         
@@ -75,7 +75,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_get_find_failed_response(self):
         '''
-        Return the response set if SikuliX cannot find the image.  
+        Return the response set if SikuliX cannot find the image, see `Region Set Find Failed Response`.
         
         | ${val} | Region Get Find Failed Response |
         '''
@@ -207,9 +207,9 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
         - onScreen - reset the region to the whole screen, otherwise will search on a region defined previously with set parameters keywords
-            e.g. `Region SetRect` where the parameters can be from a previous match or known dimensions, etc.
+            e.g. `Region Set Rect` where the parameters can be from a previous match or known dimensions, etc.
         
-        Region Find does not wait for the appearance until timeout expires and throws FindFailed if not found.
+        Region Find does not wait for the appearance until timeout expires and throws `FindFailed` if not found.
             
         | Region Find | image.png=0.7 | 
         | Region Find | image | onScreen=${False} |
@@ -220,11 +220,13 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_wait(self, target, seconds=0, onScreen=True):
         '''
-        Wait until the particular pattern, which is the given image appears in the current region. See Region Find for more details.
+        Wait until the particular pattern, which is the given image appears in the current region. See `Region Find`
+        for more details.
         
         Region Wait repeat search until timeout expires and throws FindFailed if not found.
         
-        seconds: granularity is milliseconds. If not specified, the auto wait timeout value set by `Region SetAutoWaitTimeout`  is used
+        seconds: granularity is milliseconds. If not specified, the auto wait timeout value set by `Region Set Auto Wait`
+        is used
 
         | Region Wait | image.png=0.7 | 10s |
         | Region Wait | image | onScreen=${False} |
@@ -235,7 +237,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_wait_vanish(self, target, seconds=0, onScreen=True):
         '''
-        Wait until the particular pattern, which is the given image vanishes the current screen. See `Region Find` for more details.
+        Wait until the particular pattern, which is the given image vanishes the current screen. See `Region Find` 
+        for more details.
         
         Region Wait Vanish repeat search until timeout expires and does not throw exception.
 
@@ -246,11 +249,12 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_exists(self, target, seconds=0, onScreen=True):
         '''
-        Wait until the particular pattern, which is the given image appears in the current region. See `Region Find` for more details.
+        Wait until the particular pattern, which is the given image appears in the current region. See `Region Find` 
+        for more details.
         
         Region Exists repeat search until timeout expires but does not throws FindFailed if not found.
         
-        seconds: granularity is milliseconds. If not specified, the auto wait timeout value set by `Region SetAutoWaitTimeout`  is used
+        seconds: granularity is milliseconds. If not specified, the auto wait timeout value set by `Region Set Auto Wait`  is used
 
         | Region Exists | image.png=0.7 | 10s |
         | Region Exists | image | onScreen=${False} |
@@ -314,8 +318,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner (default with `Set OffsetCenterMode`)
-        - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
-            if implicit find operation is needed, assume the region is the whole screen.
+            - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
+        If implicit find operation is needed, assume the region is the whole screen.
         
         Region Click with no arguments will either click the center of the last used Region or the lastMatch, if any is available.
         
@@ -346,7 +350,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_hover(self, target=None, dx=0, dy=0, useLastMatch=False):
         '''
-        Move the mouse cursor to hover above a click point defined by a target image and coordinates, i.e. to display a tooltip. See `Region Click` for details.
+        Move the mouse cursor to hover above a click point defined by a target image and coordinates, 
+        i.e. to display a tooltip. See `Region Click` for details.
 
         | Region Hover | image | dx | dy |
         '''
@@ -355,7 +360,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_mouse_move(self, xoff, yoff):
         '''
-        Move the mouse pointer from it’s current position to the position given by the offset values (<0 left, up >0 right, down)
+        Move the mouse pointer from it’s current position to the position given by the offset values 
+        (<0 left, up >0 right, down)
         
         | Region Mouse Move | x | y |
         '''
@@ -365,7 +371,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_highlight(self, seconds=0, useLastMatch=True):
         '''
-        Highlight toggle (switched on if off and vice versa) for the current region (defined with `Region setRect`) or last match region. 
+        Highlight toggle (switched on if off and vice versa) for the current region (defined with `Region Set Rect`) 
+        or last match region. 
         
         For last match to be used, a last match operation needs to be performed first (e.g. find, wait, existsText and so on).
         
@@ -408,8 +415,10 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         Pattern will need the following parameters, provided as arguments on this keyword
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
-            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
-            - dx, dy - define click point, either relative to center or relative to upper left corner (default with `set offsetCenterMode`)
+            - mask - an image with transparent or black parts or 0 for default masked black parts. 
+            Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
+            - dx, dy - define click point, either relative to center or relative to upper left corner 
+            (default with `Set Offset Center Mode`)
         
         If target is omitted, it performs the paste on the current focused component (normally an input field).
         
@@ -430,14 +439,17 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         '''
         Type the text at the current focused input field or at a click point specified by target image.
         
-        From SikuliX documentation: Region.type([PSMRL,] text[, modifiers]), where PSMRL is a pattern, a string, a match, a region or a location that evaluates to a click point.
+        From SikuliX documentation: Region.type([PSMRL,] text[, modifiers]), where PSMRL is a pattern, 
+        a string, a match, a region or a location that evaluates to a click point.
         
-        Special keys (ENTER, TAB, BACKSPACE) can be incorporated into text using the constants defined in Class Key using the format SikuliXJClass.Key.Key_String
+        Special keys (ENTER, TAB, BACKSPACE) can be incorporated into text using the constants defined in 
+        Class Key using the format SikuliXJClass.Key.Key_String
         e.g. SikuliXJClass.Key.ENTER for both key and modifier. Key modifiers can be ALT, CTRL, etc.
         
         Best Practice: As a general guideline, the best choice is to use `Region Paste` for readable text and 
         Region Type for action keys like TAB, ENTER, ESC. Use one Region Type for each key or key combination 
-        and be aware, that in some cases a short wait after a type might be necessary to give the target application some time to react and be prepared for the next SikuliX action.
+        and be aware, that in some cases a short wait after a type might be necessary to give the target 
+        application some time to react and be prepared for the next SikuliX action.
 
         | Region Type | text=A | modifier=SikuliXJClass.Key.CTRL |
         | Region Type | SikuliXJClass.Key.DELETE |
@@ -476,17 +488,22 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_drag_drop(self, target1, target2, dx1=0, dy1=0, dx2=0, dy2=0, useLastMatch=False):
         '''
-        Perform a drag-and-drop operation from a starting click point to the target click point indicated by the two target images respectively.
+        Perform a drag-and-drop operation from a starting click point to the target click point indicated 
+        by the two target images respectively.
 
-        From SikuliX documentation: Region.dragDrop(PSMRL, PSMRL[, modifiers]), where PSMRL is a pattern, a string, a match, a region or a location that evaluates to a click point.
+        From SikuliX documentation: Region.dragDrop(PSMRL, PSMRL[, modifiers]), where PSMRL is a pattern, 
+        a string, a match, a region or a location that evaluates to a click point.
         
         Currently only String, together with parameters that define a pattern will be accepted.
         Pattern will need the following parameters, provided as arguments on this keyword
             - target - a string path to an image file
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
-            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
-            - dx, dy - define click point, either relative to center or relative to upper left corner (default with Set OffsetCenterMode)
-        - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
+            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be 
+            set as img:mask, img:0, img:mask=similarity or img:0=similarity
+            - dx, dy - define click point, either relative to center or relative to upper left corner 
+            (default with `Set Offset Center Mode`)
+        - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a 
+        find on the target image and click in the center of it.
             
             if implicit find operation is needed, assume the region is the whole screen.
             
@@ -550,11 +567,13 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_find_text(self, text, onScreen=True):
         '''
-        Search for given text on screen or within current region. Does not repeat search and throws FindFailed if not found.
+        Search for given text on screen or within current region. Does not repeat search and throws `FindFailed` if not found.
         
-        From SikuliX documentation: Region.findText(String), where text is the string to search for on screen. The autoWaitTimeout is used.
-        onScreen - reset the region to the whole screen, otherwise will search on a region defined previously with set parameters keywords
-            e.g. `Region SetRect` where the parameters can be from a previous match or known dimension, etc.
+        From SikuliX documentation: Region.findText(String), where text is the string to search for on screen. 
+        The `Region Set Auto Wait` is used.
+        onScreen - reset the region to the whole screen, otherwise will search on a region defined previously with 
+        set parameters keywords e.g. `Region Set Rect` where the parameters can be from a previous match or known 
+        dimension, etc.
         
         Be aware other than the image search functions, the text search functions search from top left to bottom right. 
         So if there is more than one possible match in a region, always the top left match is found. With image search it 
@@ -569,7 +588,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     def region_wait_text(self, text, seconds=0, onScreen=True):
         '''
         Wait for the given text to appear on screen or current region. Repeat search and throws if not found during the given
-        timeout in seconds or as autoWaitTimeout previously.
+        timeout in seconds or as `Region Set Auto Wait` previously.
         
         | Region Wait Text | text | ${10} |
         '''
@@ -585,8 +604,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_exists_text(self, text, seconds=0, onScreen=True):
         '''
-        Wait for the given text to appear on screen or current region. Repeat search and does not throws error if not found during the given
-        timeout in seconds or as autoWaitTimeout previously.
+        Wait for the given text to appear on screen or current region. Repeat search and does not throws error 
+        if not found during the given timeout in seconds or as `Region Set Auto Wait` previously.
         
         | Region Exists Text | text | ${10} |
         '''
@@ -595,7 +614,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_has_text(self, text, seconds=0, onScreen=True):
         '''
-        Search for given text on screen or within current region. Does not repeat search and does not throws FindFailed if not found.
+        Search for given text on screen or within current region. Does not repeat search and does not throws 
+        `FindFailed` if not found.
 
         | Region Has Text | text |
         '''

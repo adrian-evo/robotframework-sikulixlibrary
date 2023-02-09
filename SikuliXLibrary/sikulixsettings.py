@@ -19,25 +19,31 @@ class SikuliXSettings(SikuliXJClass):
         | | ThrowException | boolean | true | Throw FindFailed exception |
         | | WheelNatural | boolean | true | Setting to false reverses the wheel direction |
         | | checkMousePosition | boolean | true | Setting to false supresses error message in RobotDesktop |
-        | | ActionLogs | boolean | true | - |
-        | | InfoLogs | boolean | true | - |
-        | | DebugLogs | boolean | false | - |
+        | | ActionLogs | boolean | true | Switched to show or hide the respective action message in the log file |
+        | | InfoLogs | boolean | true | Switched to show or hide the respective info message type in the  file |
+        | | DebugLogs | boolean | false | Switched to show or hide the respective debug message in the log file |
         | | ProfileLogs | boolean | false | - |
         | | TraceLogs | boolean | false | - |
         | | LogTime | boolean | false | - |
         | *Timing* |
         | | AutoWaitTimeout | float | 3.0 | Timeout for Range Wait operations in seconds |
-        | | WaitScanRate | float | 3.0 | Rate of rechecking in Range Wait operations, checks per second |
-        | | ObserveScanRate | float | 3.0 | - |
+        | | WaitScanRate | float | 3.0 | Specify the number of times actual search operations are performed per \
+            second while waiting for a pattern to appear or vanish. |
+        | | ObserveScanRate | float | 3.0 |  Specify the number of times actual search operations are performed per \
+            second while waiting for a pattern to appear or vanish. |
         | | RepeatWaitTime | int | 1 | Seconds for visual to vanish after action |
         | | DelayBeforeMouseDown | double | 0.3 | Delay time for mouse interaction | 
-        | | DelayAfterDrag | double | 0.3 | Delay time for mouse interaction | 
+        | | DelayAfterDrag | double | 0.3 | Specifies the waiting time after mouse down at the source location \
+            as a decimal value (seconds). | 
         | | DelayBeforeDrag | double | -0.3 | Delay time for mouse interaction | 
-        | | DelayBeforeDrop | double | 0.3 | Delay time for mouse interaction | 
+        | | DelayBeforeDrop | double | 0.3 | Specifies the waiting time before mouse up at the target location \
+            as a decimal value (seconds). | 
         | | TypeDelay | double | 0.0 | Delay time between two characters, must be < 1 second | 
         | | ClickDelay | double | 0.0 | Delay time between two mouse down and mouse up, must be < 1 second | 
-        | | SlowMotionDelay | float | 2.0 | - | 
-        | | MoveMouseDelay | float | 0.5 | - | 
+        | | SlowMotionDelay | float | 2.0 | Control the duration of the visual effect (seconds). | 
+        | | MoveMouseDelay | float | 0.5 | Control the time taken for mouse movement to a target location by \
+            setting this value to a decimal value (default 0.5). The unit is seconds. Setting it to 0 will \
+            switch off any animation (the mouse will “jump” to the target location). | 
         | *Show Actions* |
         | | ShowActions | boolean | false | Use `setShowActions` to change the value of this setting |
         | | Highlight | boolean | false | Highlight every match (show red rectangle around) |
