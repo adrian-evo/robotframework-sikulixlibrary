@@ -3,7 +3,6 @@
 from .sikulixjclass import *
 from .sikulixlogger import *
 
-
 class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     '''
         SikuliX Region class and all interactions with the region
@@ -56,7 +55,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return self.appRegion.getAutoWaitTimeout()
 
     @keyword
-    def RegionSetFindFailedResponse(self, val):
+    def region_set_find_failed_response(self, val):
         '''
         Define the response if SikuliX cannot find the image.  
         
@@ -200,19 +199,28 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     def region_find(self, target, onScreen=True):
         '''
         Find a particular pattern, which is the given image. It searches within the region and returns the best match, 
-        that shows a similarity greater than the minimum similarity given by the pattern. If no similarity was set for the pattern 
-        by e.g. `Settings Set` before, a default minimum similarity of 0.7 is set automatically.
+        that shows a similarity greater than the minimum similarity given by the pattern. If no similarity was set for 
+        the pattern by e.g. `Settings Set` before, a default minimum similarity of 0.7 is set automatically.
 
         From SikuliX documentation: Region.find(PS), where PS is a Pattern or String that define the path to an image file
         Pattern will need the following parameters, provided as arguments on this keyword
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
-            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
-        - onScreen - reset the region to the whole screen, otherwise will search on a region defined previously with set parameters keywords
+            - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as \
+                img:mask, img:0, img:mask=similarity or img:0=similarity
+            - onScreen - reset the region to the whole screen, otherwise will search on a region defined previously \
+                with set parameters keywords
             e.g. `Region Set Rect` where the parameters can be from a previous match or known dimensions, etc.
         
-        Region Find does not wait for the appearance until timeout expires and throws `FindFailed` if not found.
-            
+        `Region Find` does not wait for the appearance until timeout expires and throws `FindFailed` if not found.
+           
+        `Region Find` returns a SikuliX match object containing the location parameters of the result. These parameters
+        include the `x `and `y` coordinates of the top-left corner and the `w` and `h` dimensions of the 
+        found object. Example usage:
+        | ${object}        Region Find     target-image.png
+        | Log              Image found at ${object.x}, ${object.y}
+        | Log              Image has width ${object.w} and height ${object.h}
+        
         | Region Find | image.png=0.7 | 
         | Region Find | image | onScreen=${False} |
         
