@@ -635,6 +635,18 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
 
     # Region - read text by OCR operations
     @keyword
+    def region_get_text(self, onScreen=True):
+        '''
+        Captures text from screen or within current region. Returns that text.
+        '''
+        if onScreen == True:
+            self.appRegion.setRect(self.appScreen)
+        text = self.appRegion.text()
+        logger.trace('Text read: {}'.format(text))
+        return text
+         
+    # Region - read text by OCR operations
+    @keyword
     def region_text(self, img):
         '''
         Extract and return text from the given found image on screen (by using OCR)
