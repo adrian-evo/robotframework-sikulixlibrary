@@ -2,7 +2,6 @@
 
 from .sikulixjclass import *
 
-
 class SikuliXSettings(SikuliXJClass):
     '''
         SikuliX Settings class
@@ -67,8 +66,16 @@ class SikuliXSettings(SikuliXJClass):
             target = get_java_class(SikuliXJClass.Settings).getDeclaredField(variable)
 
         previous = target.get(None)
-        if str(target.getGenericType()) == 'float':
-            target.set(None, JFloat(value))
+        variable_type = str(target.getGenericType())
+        logger.trace('Setting {}({}) to {}'.format(variable, variable_type, value))
+        if variable_type == 'int':
+            target.set(None, JInt(value))
+        elif variable_type == 'float':
+            target.set(value, JFloat(value))
+        elif variable_type == 'double':
+            target.set(None, JDouble(value))
+        elif variable_type == 'boolean':
+            target.set(None, JBoolean(value))
         else:
             target.set(None, value)
 

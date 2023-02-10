@@ -92,7 +92,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         | Region Set Rect | 0 | 0 | 1920 | 1080 |
         | Region Set Rect | ${0} | ${0} | ${1920} | ${1080} |
         '''
-        self.appRegion.setRect(int(x), int(y), int(w), int(h))
+        self.appRegion.setRect(JInt(x), JInt(y), JInt(w), JInt(h))
         
     # Region - find operations
     @not_keyword
@@ -137,7 +137,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             dx -= pattern.getImage().getW() / 2
             dy -= pattern.getImage().getH() / 2
 
-        return pattern.targetOffset(int(dx), int(dy))
+        return pattern.targetOffset(JInt(dx), JInt(dy))
 
     @not_keyword
     def _prepare_lastMatch(self, dx, dy):
@@ -152,7 +152,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             dx -= self.appMatch.getW() / 2
             dy -= self.appMatch.getH() / 2
 
-        self.appMatch.setTargetOffset(int(dx), int(dy))
+        self.appMatch.setTargetOffset(Jint(dx), Jint(dy))
 
     @not_keyword
     def _region_findOperation(self, type, target, seconds=0, onScreen=True):
@@ -177,9 +177,10 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                 logger.trace(self.appRegion)
                 logger.trace(self.appPattern)
                 if useJpype:
-                    res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JObject, JDouble).invoke(self.appRegion, self.appPattern, seconds)
+                    res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JObject, JDouble).invoke(self.appRegion, 
+                                                                            self.appPattern, JDouble(seconds))
                 else:
-                    res = get_method(self.appRegion, type)(self.appPattern, float(seconds))
+                    res = get_method(self.appRegion, type)(self.appPattern, JDouble(seconds))
 
         except: # except should happen only for find or wait
             self._failed("Image not visible on screen: " + target, seconds)
@@ -293,7 +294,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
 
         # 2nd case, define a Pattern from image name - implicit find operation is processed first. 
         if not useLastMatch:
-            pattern = self._prepare_pattern(target, dx, dy)
+            pattern = self._prepare_pattern(target, JInt(dx), JInt(dy))
             self.appRegion.setRect(self.appScreen)
             logger.trace(self.appRegion)
             logger.trace(pattern)
@@ -304,7 +305,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
 
         # 3rd case, match can be given only as lastMatch. Target offset can be null or specified.
         if useLastMatch:
-            self._prepare_lastMatch(dx, dy)
+            self._prepare_lastMatch(JInt(dx), JInt(dy))
             logger.trace(self.appRegion)
             logger.trace(self.appMatch)
             if useJpype:
@@ -375,7 +376,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         | Region Mouse Move | x | y |
         '''
-        return self.appScreen.mouseMove(int(xoff), int(yoff))
+        return self.appScreen.mouseMove(JInt(xoff), Jint(yoff))
     
     # Region - highlights operations
     @keyword
@@ -556,9 +557,10 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                 logger.trace("Call findTextOperation with arguments: %s, %s seconds" % (type, seconds))
                 logger.trace(self.appRegion)
                 if useJpype:
-                    res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JString, JDouble).invoke(self.appRegion, text, seconds)
+                    res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JString, JDouble).invoke(self.appRegion, 
+                                                                        text, JDouble(seconds))
                 else:
-                    res = get_method(self.appRegion, type)(text, float(seconds))
+                    res = get_method(self.appRegion, type)(text, JDouble(seconds))
 
         except: # except should happen only for find or wait
             self._failed("Text not visible on screen: " + text, seconds)
