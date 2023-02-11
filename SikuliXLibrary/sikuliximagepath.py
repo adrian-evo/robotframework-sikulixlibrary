@@ -35,10 +35,19 @@ class SikuliXImagePath(SikuliXJClass):
         SikuliXJClass.ImagePath.remove(path)
             
     @keyword
+    def image_path_reset(self):
+        '''
+        Will reset the SikuliX ImagePath and thereby remove all previous entries
+
+        | ImagePath Reset | 
+        '''
+        SikuliXJClass.ImagePath.reset()
+            
+    @keyword
     def image_path_dump(self):
         '''
         Retrieves the full list of image paths and logs these as trace messagesin the log file.
         '''
-        imgPath = list(SikuliXJClass.ImagePath.get())
+        imgPath = list(SikuliXJClass.ImagePath.getPaths())
         for p in imgPath:
             logger.trace("Image PATH: " + str(p))
