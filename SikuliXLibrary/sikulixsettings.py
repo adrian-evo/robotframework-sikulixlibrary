@@ -38,7 +38,8 @@ class SikuliXSettings(SikuliXJClass):
         | | DelayBeforeDrop | double | 0.3 | Specifies the waiting time before mouse up at the target location \
             as a decimal value (seconds). | 
         | | TypeDelay | double | 0.0 | Delay time between two characters, must be < 1 second | 
-        | | ClickDelay | double | 0.0 | Delay time between two mouse down and mouse up, must be < 1 second | 
+        | | ClickDelay | double | 0.0 | Delay time between two mouse down and mouse up, must be < 1 second. \
+            Note: ClickDelay is reset to 0.0 on every mouse click | 
         | | SlowMotionDelay | float | 2.0 | Control the duration of the visual effect (seconds). | 
         | | MoveMouseDelay | float | 0.5 | Control the time taken for mouse movement to a target location by \
             setting this value to a decimal value (default 0.5). The unit is seconds. Setting it to 0 will \
