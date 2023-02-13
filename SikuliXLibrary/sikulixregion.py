@@ -211,7 +211,6 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                 self.appRegion.setRect(self.appScreen)
                 
         logger.info('Active area {} {}, {}x{}'.format(self.appRegion.x, self.appRegion.y, self.appRegion.w, self.appRegion.h))
-        logger.info('Retrieved area {} {}, {}x{}'.format(self.userDefined[0], self.userDefined[1], self.userDefined[2], self.userDefined[3]))
                
     @not_keyword
     def _prepare_lastMatch(self, dx, dy):
@@ -367,8 +366,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
 
         # 2nd case, define a Pattern from image name - implicit find operation is processed first. 
         if not useLastMatch:
+            self._set_active_region(None, None)
             pattern = self._prepare_pattern(target, JInt(dx), JInt(dy))
-            self.appRegion.setRect(self.appScreen)
             logger.trace(self.appRegion)
             logger.trace(pattern)
             if useJpype:
@@ -439,6 +438,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
 
         | Region Hover | image | dx | dy |
         '''
+        logger.info('Hover img:{}, dx:{} dy={}'.format(target, dx, dy))
         return self._region_mouseAction('hover', target, dx, dy, useLastMatch)
 
     @keyword
@@ -729,3 +729,15 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         self.appMatch = self.appRegion.getLastMatch()
         text = self.appMatch.text()
         return str(text)
+
+    @keyword
+    def region_screenshot(self, onScreen=True, regionSelect=None):
+        '''
+        Take a screenshot of the specified region and add that to the log file
+        '''
+        self._set_active_region(onScreen, regionSelect)
+        region = (self.appRegion.x, self.appRegion.y, self.appRegion.w, self.appRegion.h)
+        name = self._screenshot("/matches/", region)
+        rel_path = relpath(name, SikuliXLogger.resultDir)
+        logger.info('Screenshot:   <img src="%s" />' % rel_path, True)
+
