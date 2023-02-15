@@ -11,7 +11,7 @@ class SikuliXDebug(SikuliXJClass):
     def set_debug(self, value):
         '''
         Sets the debug level of the SikuliX core engine. This data is logged to the console (stdout).
-        Default is 0, more output is generated using level 3.
+        Default is 0, more output is generated using level 3. Higher values may give more output.
         
         Example
         | Set Debug | 3 |

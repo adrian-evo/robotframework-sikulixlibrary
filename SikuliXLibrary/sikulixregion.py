@@ -400,7 +400,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
-            - dx, dy - define click point, either relative to center or relative to upper left corner (default with `Set OffsetCenterMode`)
+            - dx, dy - define click point, either relative to center or relative to upper left corner (default with `Set Offset Center Mode`)
             - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
         If implicit find operation is needed, assume the region is the whole screen.
         
@@ -445,7 +445,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     def region_mouse_move(self, xoff, yoff):
         '''
         Move the mouse pointer from it’s current position to the position given by the offset values 
-        (<0 left, up >0 right, down)
+        (<0: left, up;  >0: right, down)
         
         | Region Mouse Move | x | y |
         '''
@@ -664,6 +664,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         is still so, that it cannot be foreseen, which of the possible matches is returned as the result. In doubt you have 
         to use the functions, that return all matches in a region and then filter the result to your needs.
         
+        `Region Find Text` returns the found text.
+        
         | Region Find Text | text |
         '''
         return self._region_findTextOperation('findText', text, 0, onScreen, regionSelect)
@@ -733,7 +735,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_screenshot(self, onScreen=True, regionSelect=None):
         '''
-        Take a screenshot of the specified region and add that to the log file
+        Take a screenshot of the specified region and add that to the log file.
         '''
         self._set_active_region(onScreen, regionSelect)
         region = (self.appRegion.x, self.appRegion.y, self.appRegion.w, self.appRegion.h)

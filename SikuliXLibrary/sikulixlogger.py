@@ -82,7 +82,6 @@ class SikuliXLogger():
             region = (0, 0, br.x, br.y)
         
         name = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%f') + ".png"
-
         img_src = str(self.appScreen.capture(*region).getFile())
         full_folder = SikuliXLogger.resultDir + folder
 

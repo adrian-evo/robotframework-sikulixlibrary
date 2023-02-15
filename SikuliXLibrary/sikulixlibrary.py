@@ -24,7 +24,7 @@ class SikuliXLibrary(SikuliXRegion,
     
     So far, the only approach to use SikuliX Java library within Robot Framework was through Remote library and Jython 2.7.
     The existing ``robotframework-SikuliLibrary`` and other known custom implementations (e.g. mostly based on old 
-    blog.mykhailo.com/2011/02/how-to-sikuli-and-robot-framework.html) are using Remote library approach only, which is now obsolete.
+    http://blog.mykhailo.com/2011/02/how-to-sikuli-and-robot-framework.html) are using Remote library approach only, which is now obsolete.
     
     In addition, also other popular libraries like ``ImageHorizonLibrary`` (built on top of pyautoguy), that is used currently due easier
     usage in comparison with previous SikuliX remote server implementations, can now be easily switched to this new library.
@@ -32,7 +32,6 @@ class SikuliXLibrary(SikuliXRegion,
     With the help of this new library, SikuliX implementation can be used now natively with Robot Framework and Python 3.x:
     - robotremoteserver and Remote library are not needed anymore
     - debugging with some RF supporting tools
-    
     - very easy to extend the library with new keywords, or overwrite existing keywords and methods by extending the main class, e.g.
     |    class ImageHorizonLibraryMigration(SikuliXLibrary):
     |        def click_image(self, reference_image):
@@ -82,10 +81,9 @@ class SikuliXLibrary(SikuliXRegion,
                         ``Region Click  10  10`` or ``Region Click  ${10}  ${10}``
         - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
             
-            if implicit find operation is needed, assume the region is the whole screen.
+        If implicit find operation is needed, assume the region is the whole screen.
         
         Region Click with no arguments will either click the center of the last used Region or the lastMatch, if any is available.
-        
         = Debugging =
         When writing test cases and keywords it is important to understand the precise effect of the code written.
         The following tools can help to understand what's going on, in order of detail level:
@@ -93,6 +91,8 @@ class SikuliXLibrary(SikuliXRegion,
             [https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#log-levels|`Set Log Level`]
             - Vizualisation tools offered by SikuliXLibrary as `Settings Set Show Actions` and `Region Highlight`
             - Additional logging of the SikuliX core engine, enabled by the keyword `Set Debug`.
+            - Once logging of the SikuliX core engine is enabled, more logging sections can be enabled using the
+            `DebugLogs`, `ProfileLogs` and `TraceLogs` switches, see `Settings Set`.
     '''
     @not_keyword
     def __init__(self, sikuli_path='', image_path='', logImages=True, centerMode=False):
