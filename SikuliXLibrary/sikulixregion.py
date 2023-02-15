@@ -449,7 +449,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         | Region Mouse Move | x | y |
         '''
-        return self.appScreen.mouseMove(JInt(xoff), Jint(yoff))
+        return self.appScreen.mouseMove(JInt(xoff), JInt(yoff))
     
     # Region - highlights operations
     @keyword
@@ -586,8 +586,8 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner 
             (default with `Set Offset Center Mode`)
-        - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a 
-        find on the target image and click in the center of it.
+            - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a \
+            find on the target image and click in the center of it.
             
             if implicit find operation is needed, assume the region is the whole screen.
             
