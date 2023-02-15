@@ -229,14 +229,15 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
 
     @not_keyword
     def _region_findOperation(self, type, target, seconds, onScreen, regionSelect):
+        logger.trace('{} on target ()'.format(type, target))
+ 
         self._set_active_region(onScreen, regionSelect)
         
         self.appPattern = self._prepare_pattern(target)
         try:
             if seconds == 0:
                 logger.trace("Call findOperation with arguments: %s" % type)
-                logger.trace(self.appRegion)
-                logger.trace(self.appPattern)
+                logger.trace('Region: ' + str(self.appRegion) + '; Pattern: ' + str(self.appPattern))
                 if useJpype:
                     res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JObject).invoke(self.appRegion, self.appPattern)
                 else:
@@ -246,8 +247,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                     res = get_method(self.appRegion, type)(self.appPattern)
             else:
                 logger.trace("Call findOperation with arguments: %s, %s seconds" % (type, seconds))
-                logger.trace(self.appRegion)
-                logger.trace(self.appPattern)
+                logger.trace('Region: ' + str(self.appRegion) + '; Pattern: ' + str(self.appPattern))
                 if useJpype:
                     res = SikuliXJClass.Region.class_.getDeclaredMethod(type, JObject, JDouble).invoke(self.appRegion, 
                                                                             self.appPattern, JDouble(seconds))
@@ -355,9 +355,11 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     # Region - mouse actions
     @not_keyword
     def _region_mouseAction(self, action='click', target=None, dx=0, dy=0, useLastMatch=False):
+        logger.trace('{} on target () with offsets {},{}'.format(action, target, dx, dy))
+        
         # 1st case, target none - click on default
         if target == None:
-            logger.trace(self.appRegion)
+            logger.trace('Region ' + str(self.appRegion))
             if useJpype:
                 return SikuliXJClass.Region.class_.getDeclaredMethod(action).invoke(self.appRegion)
             else:
@@ -368,8 +370,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         if not useLastMatch:
             self._set_active_region(None, None)
             pattern = self._prepare_pattern(target, JInt(dx), JInt(dy))
-            logger.trace(self.appRegion)
-            logger.trace(pattern)
+            logger.trace('Region ' + str(self.appRegion) + '; Pattern ' + str(pattern))
             if useJpype:
                 return SikuliXJClass.Region.class_.getDeclaredMethod(action, JObject).invoke(self.appRegion, pattern) 
             else:
@@ -378,8 +379,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         # 3rd case, match can be given only as lastMatch. Target offset can be null or specified.
         if useLastMatch:
             self._prepare_lastMatch(JInt(dx), JInt(dy))
-            logger.trace(self.appRegion)
-            logger.trace(self.appMatch)
+            logger.trace('Region ' + str(self.appRegion) + '; Match ' + str(self.appMatch))
             if useJpype:
                 return SikuliXJClass.Region.class_.getDeclaredMethod(action, JObject).invoke(self.appRegion, self.appMatch)
             else:
@@ -438,7 +438,6 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
 
         | Region Hover | image | dx | dy |
         '''
-        logger.info('Hover img:{}, dx:{} dy={}'.format(target, dx, dy))
         return self._region_mouseAction('hover', target, dx, dy, useLastMatch)
 
     @keyword
@@ -635,16 +634,16 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                     res = get_method(self.appRegion, type)(text, JDouble(seconds))
 
         except: # except should happen only for find or wait
-            self._failed("Text not visible on screen: " + text, seconds)
+            self._failed("Text not visible on screen: " + text, seconds, mode='text')
             raise Exception("_Find text method Failed")
 
         if res:
             if type == 'waitVanish':
                 logger.info('PASS: ' + 'Text vanished from screen')
             else:
-                self._passed("Text visible on screen")
+                self._passed("Text visible on screen", mode='text')
         else:
-            self._notfound("Text not visible on screen: " + text, seconds)
+            self._notfound("Text not visible on screen: " + text, seconds, mode='text')
 
         return res
 

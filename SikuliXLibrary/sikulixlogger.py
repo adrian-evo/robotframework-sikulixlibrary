@@ -98,7 +98,7 @@ class SikuliXLogger():
         return full_folder + name
 
     @not_keyword
-    def _passed(self, msg):
+    def _passed(self, msg, mode=None):
         libLogger.debug('PASS %s' % msg)
         logger.info('PASS: ' + msg)
 
@@ -108,12 +108,13 @@ class SikuliXLogger():
         score: float = float(last_match.getScore())
 
         if self.passedLogImages:
-            # source image
-            src_img: str = str(self.appPattern.getFilename())
-
-            # get relative path from result directory (log.html)
-            rel_path = relpath(src_img, SikuliXLogger.resultDir)
-            logger.debug('Source Image: <img src="%s" />' % rel_path, True)
+            if mode == None:
+                # source image
+                src_img: str = str(self.appPattern.getFilename())
+    
+                # get relative path from result directory (log.html)
+                rel_path = relpath(src_img, SikuliXLogger.resultDir)
+                logger.debug('Source Image: <img src="%s" />' % rel_path, True)
 
             # screenshot of matched image
             region = (last_match.getX(), last_match.getY(), last_match.getW(), last_match.getH())
@@ -124,42 +125,46 @@ class SikuliXLogger():
         logger.info("Matched with score: %s" % score)
 
     @not_keyword
-    def _failed(self, msg, seconds):
+    def _failed(self, msg, seconds, mode=None):
         libLogger.debug('FAIL %s' % msg)
         logger.error('FAIL: ' + msg)
 
         if self.failedLogImages:
-            # source image
-            src_img: str = str(self.appPattern.getFilename())
-            rel_path = relpath(src_img, SikuliXLogger.resultDir)
-            logger.info('Source Image: <img src="%s" />' % rel_path, True, True)
-
+            if mode == None:
+                # source image
+                src_img: str = str(self.appPattern.getFilename())
+                rel_path = relpath(src_img, SikuliXLogger.resultDir)
+                logger.info('Source Image: <img src="%s" />' % rel_path, True, True)
+    
             # screenshot
             name = self._screenshot("/screenshots/")
             rel_path = relpath(name, SikuliXLogger.resultDir)
             logger.info('No Match: <img src="%s" />' % rel_path, True, True)
-        
-        wait: float = float(self.appRegion.getAutoWaitTimeout())
-        if seconds > 0:
-            wait: float = seconds
-        logger.debug('Image not visible after ' + str(wait) + ' seconds')
+
+        if mode == None:        
+            wait: float = float(self.appRegion.getAutoWaitTimeout())
+            if seconds > 0:
+                wait: float = seconds
+            logger.debug('Image not visible after ' + str(wait) + ' seconds')
         raise Exception(msg)
 
     @not_keyword
-    def _notfound(self, msg, seconds):
+    def _notfound(self, msg, seconds, mode=None):
         libLogger.debug('NOT FOUND %s' % msg)
         if self.notFoundLogImages:
-            # source image
-            src_img: str = str(self.appPattern.getFilename())
-            rel_path = relpath(src_img, SikuliXLogger.resultDir)
-            logger.info('Source Image: <img src="%s" />' % rel_path, True, True)
-
+            if mode == None:
+                # source image
+                src_img: str = str(self.appPattern.getFilename())
+                rel_path = relpath(src_img, SikuliXLogger.resultDir)
+                logger.info('Source Image: <img src="%s" />' % rel_path, True, True)
+    
             # screenshot
             name = self._screenshot("/screenshots/")
             rel_path = relpath(name, SikuliXLogger.resultDir)
             logger.info('Not Found: <img src="%s" />' % rel_path, True, True)
         
-        wait: float = float(self.appRegion.getAutoWaitTimeout())
-        if seconds > 0:
-            wait: float = seconds
-        logger.debug('Image not visible after ' + str(wait) + ' seconds')
+        if mode == None:
+            wait: float = float(self.appRegion.getAutoWaitTimeout())
+            if seconds > 0:
+                wait: float = seconds
+            logger.debug('Image not visible after ' + str(wait) + ' seconds')
