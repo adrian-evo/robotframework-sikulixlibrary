@@ -225,7 +225,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             dx -= self.appMatch.getW() / 2
             dy -= self.appMatch.getH() / 2
 
-        self.appMatch.setTargetOffset(Jint(dx), Jint(dy))
+        self.appMatch.setTargetOffset(JInt(dx), JInt(dy))
 
     @not_keyword
     def _region_findOperation(self, type, target, seconds, onScreen, regionSelect):
@@ -355,7 +355,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     # Region - mouse actions
     @not_keyword
     def _region_mouseAction(self, action='click', target=None, dx=0, dy=0, useLastMatch=False):
-        logger.trace('{} on target () with offsets {},{}'.format(action, target, dx, dy))
+        logger.trace('{} on target {} with offsets {},{}'.format(action, target, dx, dy))
         
         # 1st case, target none - click on default
         if target == None:
