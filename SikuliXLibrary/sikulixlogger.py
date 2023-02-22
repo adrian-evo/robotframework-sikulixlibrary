@@ -24,42 +24,42 @@ class SikuliXLogger():
         #libLogger.debug('SikuliXLogger init')
 
     @keyword
-    def set_sikuli_result_dir(self, path):
+    def set_sikuli_resultDir(self, path):
         '''
         Used to set the directory where to save the screenshots for the log file
 
-        | Set Sikuli Result Dir | path |
+        | Set Sikuli ResultDir | path |
         '''
         SikuliXLogger.resultDir = path
 
     @keyword
-    def set_passed_log_images(self, mode):
+    def set_passedLogImages(self, mode):
         '''
         Enable or disable logging of the images when keyword passes
 
-        | Set Passed Log Images | ${True} |
+        | Set PassedLogImages | ${True} |
         '''
         scr = self.passedLogImages
         self.passedLogImages = mode
         return scr
         
     @keyword
-    def set_failed_log_images(self, mode):
+    def set_failedLogImages(self, mode):
         '''
         Enable or disable logging of the images when keyword fails
 
-        | Set Failed Log Images | ${True} |
+        | Set FailedLogImages | ${True} |
         '''
         scr = self.failedLogImages
         self.failedLogImages = mode
         return scr
 
     @keyword
-    def set_not_found_log_images(self, mode):
+    def set_notFoundLlogImages(self, mode):
         '''
         Enable or disable logging of the images when the image is not found (for keywords that does not throw exception)
 
-        | Set Not Found Log Images | ${True} |
+        | Set NotFoundLogImages | ${True} |
         '''
         scr = self.notFoundLogImages
         self.notFoundLogImages = mode

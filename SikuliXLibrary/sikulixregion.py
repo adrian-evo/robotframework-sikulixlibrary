@@ -27,19 +27,19 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
     # Region - Set operations
     @keyword
-    def set_offset_center_mode(self, mode):
+    def set_offsetCenterMode(self, mode):
         '''
         Set to use click coordinates relative to center of the image (True) or relative to upper left corner (default False).
         
         With this approach, it is very easy to capture a screenshot, open it e.g. in Paint in Windows and the 
         coordinates shown in lower left corner are the click coordinates that should be given to the mouse action keywords.
         
-        | Set Offset Center Mode | ${True} |
+        | Set OffsetCenterMode | ${True} |
         '''
         self.offsetCenterMode = mode
 
     @keyword
-    def region_set_default_select_mode(self, mode=None):
+    def region_setDefaultSelectMode(self, mode=None):
         '''
         Set the default mode to select the active region for image and text searches.
         - `UserDefined` will use the values of the last `Region Set Rect` call
@@ -49,30 +49,30 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         The default selection can be overriden at every keyword call, by specifying the value for `regionSelect`
         
-        | Region Set Default Select Mode | FullScreen |
+        | Region SetDefaultSelectMode | FullScreen |
         '''
         self.defaultRegionSelectMode = mode
         
     @keyword
-    def region_set_auto_wait(self, seconds):
+    def region_setAutoWait(self, seconds):
         '''
         Set the maximum waiting time for all subsequent find operations in that Region.
         
-        | Region Set Auto Wait | ${5} |
+        | Region SetAutoWait | ${5} |
         '''
         self.appRegion.setAutoWaitTimeout(float(seconds))
 
     @keyword
-    def region_get_auto_wait(self):
+    def region_getAutoWait(self):
         '''
         Get the current value of the maximum waiting time for find operation in this region.
         
-        | ${wait} | Region Get Auto Wait |
+        | ${wait} | Region GetAutoWait |
         '''
         return self.appRegion.getAutoWaitTimeout()
 
     @keyword
-    def region_set_find_failed_response(self, val):
+    def region_setFindFailedResponse(self, val):
         '''
         Define the response if SikuliX cannot find the image.  
         
@@ -82,7 +82,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         - SKIP the step
         - RETRY to search again for image
         
-        | Region Set Find Failed Response | SKIP |
+        | Region SetFindFailedResponse | SKIP |
         '''
         if useJpype:
             jVal = SikuliXJClass.FindFailedResponse.class_.getDeclaredField(val).get(None)
@@ -91,38 +91,38 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         self.appRegion.setFindFailedResponse(jVal)
 
     @keyword
-    def region_get_find_failed_response(self):
+    def region_getFindFailedResponse(self):
         '''
         Return the response set if SikuliX cannot find the image, see `Region Set Find Failed Response`.
         
-        | ${val} | Region Get Find Failed Response |
+        | ${val} | Region GetFindFailedResponse |
         '''
         return self.appRegion.getFindFailedResponse()
 
     @keyword
-    def region_set_rect(self, x=0, y=0, w=0, h=0, dx=0, dy=0, mode=None):
+    def region_setRect(self, x=0, y=0, w=0, h=0, dx=0, dy=0, mode=None):
         '''
         Set position and dimension of the current region to new values, in one of the following manners.
         | =Mode= | =Example= | =Effect= |
-        | mode parameter is not specified | ``Region Set Rect  0  0  1920  1080`` | the first 2 parameters \
+        | mode parameter is not specified | ``Region SetRect  0  0  1920  1080`` | the first 2 parameters \
             specify the upper left corner of the region, the sencond 2 parameters specify the size of the \
             region (default behavior) |
-        | mode=left-upper | ``Region Set Rect  0  0  1920  1080  left-upper`` | the first 2 parameters are \
+        | mode=left-upper | ``Region SetRect  0  0  1920  1080  left-upper`` | the first 2 parameters are \
             redundant and ignored, the region has the left upper corner at 0,0, the size of the region \
             is 1920x1080 |
-        | mode=left-upper | ``Region Set Rect  w=1920  h=1080  mode=left-upper`` | the region has the left \
+        | mode=left-upper | ``Region SetRect  w=1920  h=1080  mode=left-upper`` | the region has the left \
             upper corner at 0,0, the size of the region is 1920x1080 |
-        | mode=right-upper | ``Region Set Rect  w=800  h=600  mode=right-upper`` | the region has the right \
+        | mode=right-upper | ``Region SetRect  w=800  h=600  mode=right-upper`` | the region has the right \
             upper corner at the right upper corner of the screen, the size of the region is 800x600 |
-        | mode=center | ``Region Set Rect  w=800  h=600  mode=center`` | the region is centered to the \
+        | mode=center | ``Region SetRect  w=800  h=600  mode=center`` | the region is centered to the \
             center of the screen, the size of the region is 800x600 |
         
         Next to `left-uppper` and `right-upper`, also `left-lower` and `right-lower` modes are supported, which will
         align the region to the corresponding corner of the screen. With the `dx` and `dy` parameters, a shift 
         for the region is specified. 
         
-        ``Region Set Rect w=800  h=600  dx=100  dy=100  mode=left-upper``  is equivalent of 
-        ``Region Set Rect  100  100  800  600`` 
+        ``Region SetRect w=800  h=600  dx=100  dy=100  mode=left-upper``  is equivalent of 
+        ``Region SetRect  100  100  800  600`` 
         '''
         if mode == 'left-upper':
             x = dx
@@ -318,14 +318,14 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return self._region_findOperation('wait', target, seconds, onScreen, regionSelect)
 
     @keyword
-    def region_wait_vanish(self, target, seconds=0, onScreen=True, regionSelect=None):
+    def region_waitVanish(self, target, seconds=0, onScreen=True, regionSelect=None):
         '''
         Wait until the particular pattern, which is the given image vanishes the current screen. See `Region Find` 
         for more details.
         
-        Region Wait Vanish repeat search until timeout expires and does not throw exception.
+        Region WaitVanish repeat search until timeout expires and does not throw exception.
 
-        | Region Wait Vanish | image | 10s |
+        | Region WaitVanish | image | 10s |
         '''
         return self._region_findOperation('waitVanish', target, seconds, onScreen, regionSelect)
 
@@ -413,20 +413,20 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return self._region_mouseAction('click', target, dx, dy, useLastMatch)
 
     @keyword
-    def region_double_click(self, target=None, dx=0, dy=0, useLastMatch=False):
+    def region_doubleClick(self, target=None, dx=0, dy=0, useLastMatch=False):
         '''
         Perform a mouse double-click on the click point using the left button. See `Region Click` for details.
 
-        | Region Double Click | image | dx | dy |
+        | Region DoubleClick | image | dx | dy |
         '''
         return self._region_mouseAction('doubleClick', target, dx, dy, useLastMatch)
 
     @keyword
-    def region_right_click(self, target=None, dx=0, dy=0, useLastMatch=False):
+    def region_rightClick(self, target=None, dx=0, dy=0, useLastMatch=False):
         '''
         Perform a mouse click on the click point using the right button. See `Region Click` for details.
 
-        | Region Right Click | image | dx | dy |
+        | Region RightClick | image | dx | dy |
         '''
         return self._region_mouseAction('rightClick', target, dx, dy, useLastMatch)
 
@@ -441,12 +441,12 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return self._region_mouseAction('hover', target, dx, dy, useLastMatch)
 
     @keyword
-    def region_mouse_move(self, xoff, yoff):
+    def region_mouseMove(self, xoff, yoff):
         '''
         Move the mouse pointer from it’s current position to the position given by the offset values 
         (<0: left, up;  >0: right, down)
         
-        | Region Mouse Move | x | y |
+        | Region MouseMove | x | y |
         '''
         return self.appScreen.mouseMove(JInt(xoff), JInt(yoff))
     
@@ -478,11 +478,11 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                 return self.appRegion.highlight(float(seconds))
 
     @keyword
-    def region_highlight_all_off(self):
+    def region_highlightAllOff(self):
         '''
         Switch off all currently active highlights.
         
-        | Region Highlight All Off |
+        | Region HighlightAllOff |
         '''
         return self.appScreen.highlightAllOff()
 
@@ -569,7 +569,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             return self.appRegion.type(pattern, key, mod)
 
     @keyword
-    def region_drag_drop(self, target1, target2, dx1=0, dy1=0, dx2=0, dy2=0, useLastMatch=False):
+    def region_dragDrop(self, target1, target2, dx1=0, dy1=0, dx2=0, dy2=0, useLastMatch=False):
         '''
         Perform a drag-and-drop operation from a starting click point to the target click point indicated 
         by the two target images respectively.
@@ -592,7 +592,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             
             target1 and target2 can be the same image with different click points or separate images
             
-        | Region Drag Drop | image1=0.7 | image2 | dx1 | dy1 | dx2 | dy2 |
+        | Region DragDrop | image1=0.7 | image2 | dx1 | dy1 | dx2 | dy2 |
         '''
         # define a Pattern from second image name - implicit find operation is processed first. 
         pattern2 = self._prepare_pattern(target2, dx2, dy2)
@@ -648,12 +648,12 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         return res
 
     @keyword
-    def region_find_text(self, text, onScreen=True, regionSelect=None):
+    def region_findText(self, text, onScreen=True, regionSelect=None):
         '''
         Search for given text on screen or within current region. Does not repeat search and throws `FindFailed` if not found.
         
         From SikuliX documentation: Region.findText(String), where text is the string to search for on screen. 
-        The `Region Set Auto Wait` is used.
+        The `Region SetAutoWait` is used.
         onScreen - reset the region to the whole screen, otherwise will search on a region defined previously with 
         set parameters keywords e.g. `Region Set Rect` where the parameters can be from a previous match or known 
         dimension, etc.
@@ -663,52 +663,52 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         is still so, that it cannot be foreseen, which of the possible matches is returned as the result. In doubt you have 
         to use the functions, that return all matches in a region and then filter the result to your needs.
         
-        `Region Find Text` returns the found text.
+        `Region FindText` returns the found text.
         
-        | Region Find Text | text |
+        | Region FindText | text |
         '''
         return self._region_findTextOperation('findText', text, 0, onScreen, regionSelect)
 
     @keyword
-    def region_wait_text(self, text, seconds=0, onScreen=True, regionSelect=None):
+    def region_waitText(self, text, seconds=0, onScreen=True, regionSelect=None):
         '''
         Wait for the given text to appear on screen or current region. Repeat search and throws if not found during the given
-        timeout in seconds or as `Region Set Auto Wait` previously.
+        timeout in seconds or as `Region SetAutoWait` previously.
         
-        | Region Wait Text | text | ${10} |
+        | Region WaitText | text | ${10} |
         '''
         return self._region_findTextOperation('waitText', text, seconds, onScreen, regionSelect)
 
     @keyword
-    def region_wait_vanish_text(self, text, seconds=0, onScreen=True, regionSelect=None):
+    def region_waitVanishText(self, text, seconds=0, onScreen=True, regionSelect=None):
         ''' 
         According to SikuliX documentation, not implemented yet.
         '''
         return self._region_findTextOperation('waitVanishText', text, seconds, onScreen, regionSelect)
 
     @keyword
-    def region_exists_text(self, text, seconds=0, onScreen=True, regionSelect=None):
+    def region_existsText(self, text, seconds=0, onScreen=True, regionSelect=None):
         '''
         Wait for the given text to appear on screen or current region. Repeat search and does not throws error 
-        if not found during the given timeout in seconds or as `Region Set Auto Wait` previously.
+        if not found during the given timeout in seconds or as `Region SetAutoWait` previously.
         
-        | Region Exists Text | text | ${10} |
+        | Region ExistsText | text | ${10} |
         '''
         return self._region_findTextOperation('existsText', text, seconds, onScreen, regionSelect)
 
     @keyword
-    def region_has_text(self, text, seconds=0, onScreen=True, regionSelect=None):
+    def region_hasText(self, text, seconds=0, onScreen=True, regionSelect=None):
         '''
         Search for given text on screen or within current region. Does not repeat search and does not throws 
         `FindFailed` if not found.
 
-        | Region Has Text | text |
+        | Region HasText | text |
         '''
         return self._region_findTextOperation('hasText', text, seconds, onScreen, regionSelect)
 
     # Region - read text by OCR operations
     @keyword
-    def region_get_text(self, onScreen=True, regionSelect=None):
+    def region_getText(self, onScreen=True, regionSelect=None):
         '''
         Captures text from screen or within current region. Returns that text.
         '''

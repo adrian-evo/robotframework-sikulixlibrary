@@ -15,7 +15,7 @@ class SikuliXImagePath(SikuliXJClass):
         libLogger.debug('SikuliXImagePath init')
         
     @keyword
-    def image_path_add(self, path):
+    def imagePath_add(self, path):
         '''
         Used usually in any suite setup. Will add to SikuliX ImagePath a new directory where to find reference images
         Note: paths must be specified using the correct path separators (slash on Mac and Unix and double blackslashes 
@@ -26,7 +26,7 @@ class SikuliXImagePath(SikuliXJClass):
         SikuliXJClass.ImagePath.add(path)
 
     @keyword
-    def image_path_remove(self, path):
+    def imagePath_remove(self, path):
         '''
         Will remove from SikuliX ImagePath the given path
 
@@ -35,7 +35,7 @@ class SikuliXImagePath(SikuliXJClass):
         SikuliXJClass.ImagePath.remove(path)
             
     @keyword
-    def image_path_reset(self):
+    def imagePath_reset(self):
         '''
         Will reset the SikuliX ImagePath and thereby remove all previous entries
 
@@ -44,7 +44,7 @@ class SikuliXImagePath(SikuliXJClass):
         SikuliXJClass.ImagePath.reset()
             
     @keyword
-    def image_path_dump(self):
+    def imagePath_dump(self):
         '''
         Retrieves the full list of image paths and logs these as trace messagesin the log file.
         '''

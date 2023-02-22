@@ -62,7 +62,7 @@ class SikuliXLibrary(SikuliXRegion,
             - similar - minimum similarity. If not given, the default is used. Can be set as ``img=similarity``
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
         - onScreen - reset the region to the whole screen, otherwise it will search on a region defined previously with set parameters keywords
-            e.g. `Region Set Rect` where the parameters can be from a previous match or known dimension, etc.
+            e.g. `Region SetRect` where the parameters can be from a previous match or known dimension, etc.
     
     Compared with other libraries, the import parameter ``centerMode`` will allow using click coordinates relative to center of the image,
     otherwise the click coordinates are relative to upper left corner (default).
