@@ -144,7 +144,7 @@ class SikuliXJClass():
         # Check if already running
         manuallyStarted = False
         try:
-            JavaGW = JavaGateway(gateway_parameters=GatewayParameters(eager_load=True))    
+            JavaGW = JavaGateway(gateway_parameters=GatewayParameters(eager_load=True, auto_field=True))    
             libLogger.info("JVM accepting connection")
             manuallyStarted = True
         except Py4JNetworkError:
