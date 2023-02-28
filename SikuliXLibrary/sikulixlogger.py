@@ -55,7 +55,7 @@ class SikuliXLogger():
         return scr
 
     @keyword
-    def set_notFoundLlogImages(self, mode):
+    def set_notFoundLogImages(self, mode):
         '''
         Enable or disable logging of the images when the image is not found (for keywords that does not throw exception)
 
