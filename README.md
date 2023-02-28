@@ -20,6 +20,8 @@ create migration classes to help migrate from current Sikuli libraries or other 
 
 See [keyword documentation](https://adrian-evo.github.io/SikuliXLibrary.html).
 
+**Note:** To avoid confusion, there is another project, but using the RobotFramework Remote technology at https://github.com/rainmanwy/robotframework-SikuliLibrary/.
+
 # Installation instructions (Windows)
 
 1. Python 3.7 or newer, as supported by JPype or Py4J
