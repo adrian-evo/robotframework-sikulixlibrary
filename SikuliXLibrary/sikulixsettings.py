@@ -2,6 +2,10 @@
 
 from .sikulixjclass import *
 
+if not useJpype:
+    from .sikulixpy4j import *
+    
+
 class SikuliXSettings(SikuliXJClass):
     '''
         SikuliX Settings class

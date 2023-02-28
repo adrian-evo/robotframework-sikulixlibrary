@@ -3,6 +3,9 @@
 from .sikulixjclass import *
 from .sikulixlogger import *
 
+if not useJpype:
+    from .sikulixpy4j import *
+    
 class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     '''
         SikuliX Region class and all interactions with the region
