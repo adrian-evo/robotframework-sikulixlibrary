@@ -11,7 +11,7 @@ This library is a wrapper to SikuliX that is exposing Java functions as Robot Fr
 choice any of the JPype or Py4J modules. This is done by creating SIKULI_PY4J environment variable and setting to 1. When not defined or
 set to 0, JPype is used instead. Please note that on MacOS, only Py4J can be used, while on Windows or Ubuntu, any of them is working.
 
-While in the past the only approach to use Sikuli functionality within Robot Framework was through Remote Server with XML RPC interface, the aim 
+While in the past the only approach to use Sikuli functionality within Robot Framework was through Remote Server with XML RPC interface ([SikuliLibrary](https://github.com/rainmanwy/robotframework-SikuliLibrary/)), the aim 
 of this library is to replace that approach and make it a lot easier to use SikuliX within Robot Framework projects with a simple Library statement 
 (i.e. no need to start remote server and so on).
 
