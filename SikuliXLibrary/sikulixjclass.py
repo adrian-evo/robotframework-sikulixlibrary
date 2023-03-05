@@ -51,6 +51,7 @@ class SikuliXJClass():
     FindFailedResponse = None
     ImagePath = None
     Settings = None
+    Debug = None
     JavaGW = None
     Py4JProcess = None
 
@@ -121,6 +122,7 @@ class SikuliXJClass():
         SikuliXJClass.FindFailed = JClass('org.sikuli.script.FindFailed')
         SikuliXJClass.FindFailedResponse = JClass('org.sikuli.script.FindFailedResponse')
         SikuliXJClass.Settings = JClass('org.sikuli.basics.Settings')
+        SikuliXJClass.Debug = JClass('org.sikuli.basics.Debug')
 
     @not_keyword
     def _py4j_sikuli_init(self, sikuli_path):
@@ -142,7 +144,7 @@ class SikuliXJClass():
         # Check if already running
         manuallyStarted = False
         try:
-            JavaGW = JavaGateway(gateway_parameters=GatewayParameters(eager_load=True))    
+            JavaGW = JavaGateway(gateway_parameters=GatewayParameters(eager_load=True, auto_field=True))    
             libLogger.info("JVM accepting connection")
             manuallyStarted = True
         except Py4JNetworkError:
@@ -171,6 +173,7 @@ class SikuliXJClass():
         SikuliXJClass.FindFailed = JavaGW.jvm.org.sikuli.script.FindFailed
         SikuliXJClass.FindFailedResponse = JavaGW.jvm.org.sikuli.script.FindFailedResponse
         SikuliXJClass.Settings = JavaGW.jvm.org.sikuli.basics.Settings
+        SikuliXJClass.Debug = JavaGW.jvm.org.sikuli.basics.Debug
         
     @keyword
     def log_java_bridge(self):

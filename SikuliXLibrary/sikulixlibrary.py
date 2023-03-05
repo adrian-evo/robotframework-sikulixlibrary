@@ -6,13 +6,15 @@ from .sikulixregion import *
 from .sikulixapp import *
 from .sikuliximagepath import *
 from .sikulixsettings import *
+from .sikulixdebug import *
 
 
 @library(scope='GLOBAL', version=VERSION)
 class SikuliXLibrary(SikuliXRegion, 
                      SikuliXApp, 
                      SikuliXImagePath,
-                     SikuliXSettings):
+                     SikuliXSettings,
+                     SikuliXDebug):
     
     ''' The all new, modern, SikuliX Robot Framework library for Python 3.x, based on JPype or Py4J Python modules.
     
@@ -22,7 +24,7 @@ class SikuliXLibrary(SikuliXRegion,
     
     So far, the only approach to use SikuliX Java library within Robot Framework was through Remote library and Jython 2.7.
     The existing ``robotframework-SikuliLibrary`` and other known custom implementations (e.g. mostly based on old 
-    blog.mykhailo.com/2011/02/how-to-sikuli-and-robot-framework.html) are using Remote library approach only, which is now obsolete.
+    http://blog.mykhailo.com/2011/02/how-to-sikuli-and-robot-framework.html) are using Remote library approach only, which is now obsolete.
     
     In addition, also other popular libraries like ``ImageHorizonLibrary`` (built on top of pyautoguy), that is used currently due easier
     usage in comparison with previous SikuliX remote server implementations, can now be easily switched to this new library.
@@ -30,7 +32,6 @@ class SikuliXLibrary(SikuliXRegion,
     With the help of this new library, SikuliX implementation can be used now natively with Robot Framework and Python 3.x:
     - robotremoteserver and Remote library are not needed anymore
     - debugging with some RF supporting tools
-    
     - very easy to extend the library with new keywords, or overwrite existing keywords and methods by extending the main class, e.g.
     |    class ImageHorizonLibraryMigration(SikuliXLibrary):
     |        def click_image(self, reference_image):
@@ -51,7 +52,8 @@ class SikuliXLibrary(SikuliXRegion,
     
     The keywords are matching as much as possible the original SikuliX functions so that it is easier to understand them from 
     the official documentation: https://sikulix-2014.readthedocs.io/en/latest/index.html
-    E.g. SikuliX class Region.find(PS) function is translated into Python and Robot keyword as ``region_find(target, onScreen)``
+    E.g. ``SikuliX class Region.find(PS)`` function is translated into Python and Robot keyword as 
+    ``region_find(target, onScreen)``
 
         ``region_find = Region.find(PS)``, where PS is a Pattern or String that define the path to an image file
         
@@ -76,20 +78,27 @@ class SikuliXLibrary(SikuliXRegion,
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
             - dx, dy - define click point, either relative to center or relative to upper left corner (default with set_offsetCenterMode)
                 Note: within RF, coordinates can be given both as string or numbers, for any keyword that needs coordinates, e.g.:
-                        'Region Click  10  10'
-                        'Region Click  ${10}  ${10}
+                        ``Region Click  10  10`` or ``Region Click  ${10}  ${10}``
         - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
             
-            if implicit find operation is needed, assume the region is the whole screen.
+        If implicit find operation is needed, assume the region is the whole screen.
         
         Region Click with no arguments will either click the center of the last used Region or the lastMatch, if any is available.
-    
+        = Debugging =
+        When writing test cases and keywords it is important to understand the precise effect of the code written.
+        The following tools can help to understand what's going on, in order of detail level:
+            - Robot Framework's own
+            [https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#log-levels|`Set Log Level`]
+            - Vizualisation tools offered by SikuliXLibrary as `Settings Set Show Actions` and `Region Highlight`
+            - Additional logging of the SikuliX core engine, enabled by the keyword `Set Debug`.
+            - Once logging of the SikuliX core engine is enabled, more logging sections can be enabled using the
+            `DebugLogs`, `ProfileLogs` and `TraceLogs` switches, see `Settings Set`.
     '''
     @not_keyword
     def __init__(self, sikuli_path='', image_path='', logImages=True, centerMode=False):
         '''
         | sikuli_path | Path to sikulix.jar file. If empty, it will try to use SIKULI_HOME environment variable. |
-        | image_path |  Initial path to image library. More paths can be added later with the keyword `ImagePath Add` |
+        | image_path |  Initial path to image library. More paths can be added later with the keyword `Image Path Add` |
         | logImages | Default True, if screen captures of found images and whole screen if not found, are logged in the final result log.html file |
         | centerMode | Default False, if should calculate the click offset relative to center of the image or relative to upper left corner. |
         '''
