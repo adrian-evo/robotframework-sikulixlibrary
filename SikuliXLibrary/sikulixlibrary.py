@@ -98,7 +98,7 @@ class SikuliXLibrary(SikuliXRegion,
     def __init__(self, sikuli_path='', image_path='', logImages=True, centerMode=False):
         '''
         | sikuli_path | Path to sikulix.jar file. If empty, it will try to use SIKULI_HOME environment variable. |
-        | image_path |  Initial path to image library. More paths can be added later with the keyword `Image Path Add` |
+        | image_path |  Initial path to image library. More paths can be added later with the keyword `ImagePath Add` |
         | logImages | Default True, if screen captures of found images and whole screen if not found, are logged in the final result log.html file |
         | centerMode | Default False, if should calculate the click offset relative to center of the image or relative to upper left corner. |
         '''

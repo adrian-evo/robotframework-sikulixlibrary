@@ -15,8 +15,11 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         SikuliXLogger.__init__(self, logImages)
 
         self.appScreen = SikuliXJClass.Screen()
-        br = self.appScreen.getBottomRight()
-        appCoordinates = (0, 0, br.x, br.y)
+        #br = self.appScreen.getBottomRight()
+        #appCoordinates = (0, 0, br.x, br.y)
+        x = self.appScreen.getW()
+        y = self.appScreen.getH()
+        appCoordinates = (0, 0, x, y)
         self.appScreen = SikuliXJClass.Screen()
         self.appRegion = SikuliXJClass.Region(*appCoordinates)
         self.userDefined = appCoordinates
@@ -96,7 +99,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
     @keyword
     def region_getFindFailedResponse(self):
         '''
-        Return the response set if SikuliX cannot find the image, see `Region Set Find Failed Response`.
+        Return the response set if SikuliX cannot find the image, see `Region SetFindFailedResponse`.
         
         | ${val} | Region GetFindFailedResponse |
         '''
@@ -209,7 +212,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         elif regionSelect == 'FullScreen':
             self.appRegion.setRect(self.appScreen)
         else:
-            # lecacy modes
+            # legacy modes
             if onScreen == True:
                 self.appRegion.setRect(self.appScreen)
                 
@@ -286,7 +289,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
                 img:mask, img:0, img:mask=similarity or img:0=similarity
             - onScreen - reset the region to the whole screen, otherwise will search on a region defined previously \
                 with set parameters keywords
-            e.g. `Region Set Rect` where the parameters can be from a previous match or known dimensions, etc.
+            e.g. `Region SetRect` where the parameters can be from a previous match or known dimensions, etc.
         
         `Region Find` does not wait for the appearance until timeout expires and throws `FindFailed` if not found.
            
@@ -311,7 +314,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         Region Wait repeat search until timeout expires and throws FindFailed if not found.
         
-        seconds: granularity is milliseconds. If not specified, the auto wait timeout value set by `Region Set Auto Wait`
+        seconds: granularity is milliseconds. If not specified, the auto wait timeout value set by `Region SetAutoWait`
         is used
 
         | Region Wait | image.png=0.7 | 10s |
@@ -340,7 +343,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
         
         Region Exists repeat search until timeout expires but does not throws FindFailed if not found.
         
-        seconds: granularity is milliseconds. If not specified, the auto wait timeout value set by `Region Set Auto Wait`  is used
+        seconds: granularity is milliseconds. If not specified, the auto wait timeout value set by `Region SetAutoWait`  is used
 
         | Region Exists | image.png=0.7 | 10s |
         | Region Exists | image | onScreen=${False} |
@@ -403,7 +406,7 @@ class SikuliXRegion(SikuliXJClass, SikuliXLogger):
             - target - a string naming an image file from known image paths (with or without .png extension)
             - similar - minimum similarity. If not given, the default is used. Can be set as img=similarity
             - mask - an image with transparent or black parts or 0 for default masked black parts. Should be set as img:mask, img:0, img:mask=similarity or img:0=similarity
-            - dx, dy - define click point, either relative to center or relative to upper left corner (default with `Set Offset Center Mode`)
+            - dx, dy - define click point, either relative to center or relative to upper left corner (default with `Set OffsetCenterMode`)
             - useLastMatch - if True, will assume the LastMatch can be used otherwise SikuliX will do a find on the target image and click in the center of it.
         If implicit find operation is needed, assume the region is the whole screen.
         

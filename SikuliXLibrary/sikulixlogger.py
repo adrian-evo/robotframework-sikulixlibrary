@@ -78,8 +78,12 @@ class SikuliXLogger():
     def _screenshot(self, folder="/screenshots/", region=None):
         # generate unique name for screenshot filename
         if region == None:
-            br = SikuliXJClass.Screen().getBottomRight()
-            region = (0, 0, br.x, br.y)
+            #br = SikuliXJClass.Screen().getBottomRight()
+            #region = (0, 0, br.x, br.y)
+            x = SikuliXJClass.Screen().getW()
+            y = SikuliXJClass.Screen().getH()
+            region = (0, 0, x, y)
+            logger.trace('Screenshot Size {}  {}'.format(x, y))
         
         name = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%f') + ".png"
         img_src = str(self.appScreen.capture(*region).getFile())

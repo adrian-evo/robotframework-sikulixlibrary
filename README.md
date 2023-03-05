@@ -22,13 +22,14 @@ See [keyword documentation](https://adrian-evo.github.io/SikuliXLibrary.html).
 
 # Installation instructions (Windows)
 
-1. Python 3.7 or newer, as supported by JPype or Py4J
-2. JPype 1.4.0 or newer and JPype project dependencies as explained on project page: https://github.com/jpype-project/jpype
+1. Python 3.8 or newer, as supported by JPype or Py4J
+2. JPype 1.4.1 or newer and JPype project dependencies as explained on project page: https://github.com/jpype-project/jpype
 	- Install Java 8 or newer
 	- While not mentioned on JPype page, on a new Windows 10 machine also Visual C++ Redistributable 2015 and newer are needed (e.g. vc_redist.x64.exe)
-3. or Py4J 0.10.9.5 or newer
+3. or Py4J 0.10.9.7 or newer
 4. SikuliX as a standalone jar from project page: https://raiman.github.io/SikuliX1/downloads.html
 	- Put jar file in any local directory (e.g. C:\sikulix\sikulix.jar)
+	- Install Tesseract 4 for using OCR functionality
 	- Py4J server is enabled from SikuliX 2.0.5 onward and currently advertised as experimental. However, this library is working as expected with Py4J.
 	- Recommended to use environment variable SIKULI_HOME that point to sikulix local directory
 5. `pip install robotframework-sikulixlibrary`
@@ -38,6 +39,10 @@ While JPype JVM is always started automatically, Py4J JVM can be started manuall
 
 `java -jar sikulix.jar -p` (to start Py4J server) or
 `java -jar -DsikuliDebug=3 sikulixide.jar -p` (useful e.g. for checking sikulix debug info)
+
+# Installation instructions (MacOS)
+
+Mainly the same steps as for Windows above. However, installing Tesseract 4 seems to be challenging since e.g. `brew install tesseract` will install Tesseract 5. But at least the following method from [stackoverflow](https://stackoverflow.com/questions/3987683/homebrew-install-specific-version-of-formula/7787703#7787703) for installing Tesseract 4.1.3 is working.
 
 # Examples
 
@@ -74,9 +79,17 @@ Git clone, and if not using pip install for this library, then just point PYTHON
 
 `robot --outputdir results/default test_defaultlibrary_win.robot` (or any .robot file from under test directory and for OS of choice)
 
+or maybe on MacOS
+
+`python3 -m robot --outputdir results/default test_defaultlibrary_osx.robot`
+
 Obviously, image files from test/img/MacOS, Ubuntu or Windows might not work on specific environment and would need to be regenerated. Also for these tests SIKULI_PATH is defined and the name of SikuliX is `sikulixide-2.0.5.jar`
 
 Additionally, debugging with some RF supported tools is also possible with this library, for both Robot Framework and Pyton code. Python library debugging was tested with Visual Studio Code with Robot Framework Language Server by Robocorp, by using `debug test.py` file. Also Robot Framework test code from within test directory was tested with debugging, with the same tool, by creating a specific configuration within launch.json file (VSCode specific file).
+
+- Tested on Windows 10 with 1920x1080, Windows Dark mode, Light app mode. Also limited testing with 4k.
+- Tested on MacOS Big Sur with 1440x900, Dark Appearance. Also limited testing with 4k. Text Edit should be put in Plain Text mode.
+- Tested on Ubuntu with 1920x1080 and with Leafpad application.
 
 # Supported Operating Systems
 
